@@ -14,7 +14,6 @@ import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
 
@@ -117,7 +116,7 @@ export default function Header(props) {
   return (
     <div className="menuBox">
       <div className="userIcon">
-        <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+        <Button onClick={handleClickOpen}>
           <FontAwesomeIcon className="icon" icon={faUserCircle} />
         </Button>
         <Dialog
@@ -148,7 +147,7 @@ export default function Header(props) {
             </ul>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose} color="primary">
+            <Button onClick={handleClose} color="black">
               Close
             </Button>
           </DialogActions>

@@ -92,6 +92,10 @@ a {
 .menuBox .userIcon {
   align-self: center;
 }
+.menuBox .userIcon span {
+  color: white;
+}
+
 .menuBox svg {
   font-size: 3rem;
 }
