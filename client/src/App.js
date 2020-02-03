@@ -24,13 +24,7 @@ class App extends Component {
       <BrowserRouter>
         <div className="App">
           <div className={classes.root}>
-            <Route
-              exact
-              path="/"
-              render={(props) => (
-                <Landing backgroundImage={this.state.background} {...props} />
-              )}
-            />
+            <Route exact path="/" component={Landing} />
             <Route path="/cities" component={Cities} />
             <Route path="/register" component={RegisterView} />
             <Route path="/login" component={LoginView} />
