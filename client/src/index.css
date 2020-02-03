@@ -95,6 +95,40 @@ a {
 .menuBox svg {
   font-size: 3rem;
 }
+.sideDrawer {
+  height: inherit;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.sideDrawer > div {
+  width: 250px;
+  padding-top: 1rem;
+}
+.sideDrawer .drawericon,
+.userDialog .drawericon {
+  font-size: 2rem;
+  color: rgba(0, 0, 0, 0.54);
+  display: inline-flex;
+  min-width: 56px;
+  flex-shrink: 0;
+}
+.userDialog > h2 {
+  font-weight: bold;
+  font-size: 1.5rem;
+  text-align: center;
+  padding: 0 3rem;
+}
+.userDialog > ul {
+  list-style: none;
+  padding-left: 0;
+}
+.userDialog > ul > li > a > p {
+  display: inline-block;
+  color: black;
+  padding: 0 1rem;
+  font-size: 1.3rem;
+}
 
 /* --- FOOTER --- */
 .footerBox {

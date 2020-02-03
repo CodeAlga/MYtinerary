@@ -1,6 +1,7 @@
 import React from "react";
 //import Footer from "../components/Footer";
 import Home from "../components/Home";
+//import Test from "../components/Test";
 import Header from "../components/Header";
 
 export default function Landing() {
