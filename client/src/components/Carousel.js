@@ -3,6 +3,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
+import Box from "@material-ui/core/Box";
 import { withStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -31,13 +32,13 @@ class SimpleSlider extends Component {
     const { classes } = this.props;
 
     const settings = {
-      dots: true,
-      arrows: true,
+      dots: false,
+      arrows: false,
       infinite: true,
       speed: 1000,
       slidesToShow: 1,
       slidesToScroll: 1,
-      autoplay: false,
+      autoplay: true,
       autoplaySpeed: 6000,
       centerMode: false,
       centerPadding: "35px",
@@ -69,7 +70,7 @@ class SimpleSlider extends Component {
       ]
     };
     return (
-      <div className="slickSlider">
+      <Box className="slickSlider">
         <Slider {...settings}>
           <div>
             <Card className={classes.root}>
@@ -216,7 +217,7 @@ class SimpleSlider extends Component {
             </Card>
           </div>
         </Slider>
-      </div>
+      </Box>
     );
   }
 }

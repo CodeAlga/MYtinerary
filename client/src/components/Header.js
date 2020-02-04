@@ -51,56 +51,61 @@ export default function Header(props) {
   };
 
   const sideList = (side) => (
-    <div className="sideDrawer">
-      <div
-        role="presentation"
-        onClick={toggleDrawer(side, false)}
-        onKeyDown={toggleDrawer(side, false)}
-      >
-        <List>
-          <ListItem button key="1">
-            <FontAwesomeIcon className="drawericon" icon={faGlassCheers} />
-            <ListItemText primary="Item 1" />
-          </ListItem>
-          <ListItem button key="2">
-            <FontAwesomeIcon className="drawericon" icon={faIcons} />
-            <ListItemText primary="Item 2" />
-          </ListItem>
-          <ListItem button key="3">
-            <FontAwesomeIcon className="drawericon" icon={faUmbrellaBeach} />
-            <ListItemText primary="Item 3" />
-          </ListItem>
-        </List>
-        <Divider />
-        <List>
-          {["Log in", "Create Account"].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? (
-                  <FontAwesomeIcon className="drawericon" icon={faSignInAlt} />
-                ) : (
-                  <FontAwesomeIcon className="drawericon" icon={faUserPlus} />
-                )}
-              </ListItemIcon>
-              <ListItemText primary={text} />
+    <div>
+      <div className="sideDrawer">
+        <div
+          role="presentation"
+          onClick={toggleDrawer(side, false)}
+          onKeyDown={toggleDrawer(side, false)}
+        >
+          <List>
+            <ListItem button key="1">
+              <FontAwesomeIcon className="drawericon" icon={faGlassCheers} />
+              <ListItemText primary="Item 1" />
             </ListItem>
-          ))}
-        </List>
-      </div>
-      <div
-        role="presentation"
-        onClick={toggleDrawer(side, false)}
-        onKeyDown={toggleDrawer(side, false)}
-      >
-        <Divider />
-        <List>
-          <ListItem button key="logout">
-            <ListItemIcon>
-              <FontAwesomeIcon className="drawericon" icon={faSignOutAlt} />
-            </ListItemIcon>
-            <ListItemText primary="Log Out" />
-          </ListItem>
-        </List>
+            <ListItem button key="2">
+              <FontAwesomeIcon className="drawericon" icon={faIcons} />
+              <ListItemText primary="Item 2" />
+            </ListItem>
+            <ListItem button key="3">
+              <FontAwesomeIcon className="drawericon" icon={faUmbrellaBeach} />
+              <ListItemText primary="Item 3" />
+            </ListItem>
+          </List>
+          <Divider />
+          <List>
+            {["Log in", "Create Account"].map((text, index) => (
+              <ListItem button key={text}>
+                <ListItemIcon>
+                  {index % 2 === 0 ? (
+                    <FontAwesomeIcon
+                      className="drawericon"
+                      icon={faSignInAlt}
+                    />
+                  ) : (
+                    <FontAwesomeIcon className="drawericon" icon={faUserPlus} />
+                  )}
+                </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItem>
+            ))}
+          </List>
+        </div>
+        <div
+          role="presentation"
+          onClick={toggleDrawer(side, false)}
+          onKeyDown={toggleDrawer(side, false)}
+        >
+          <Divider />
+          <List>
+            <ListItem button key="logout">
+              <ListItemIcon>
+                <FontAwesomeIcon className="drawericon" icon={faSignOutAlt} />
+              </ListItemIcon>
+              <ListItemText primary="Log Out" />
+            </ListItem>
+          </List>
+        </div>
       </div>
     </div>
   );

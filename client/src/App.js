@@ -9,8 +9,19 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      background: []
+      listCities: []
     };
+  }
+
+  componentDidMount() {
+    fetch("cities/all")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        this.setState({
+          listCities: data.cities
+        });
+      });
   }
 
   render() {

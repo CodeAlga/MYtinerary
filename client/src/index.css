@@ -20,8 +20,6 @@ a {
 
 /* --- LANDIGN PAGE --- */
 .landingBox {
-  position: relative;
-  overflow: hidden;
   color: white;
 }
 .landingBox .landingForeground {
@@ -36,12 +34,10 @@ a {
   background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(5, 5, 5, 0.7)),
     url(./images/56711-O8P8GQ-518.jpg);
   filter: blur(2px);
-  height: 100vh;
   background-repeat: no-repeat;
   background-size: cover;
   z-index: -1;
   height: 100vh;
-  transform: scale(1.2);
 }
 
 /* --- MENU --- */
@@ -69,10 +65,12 @@ a {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  transform: translateX(-20px);
 }
 .sideDrawer > div {
   width: 250px;
   padding-top: 1rem;
+  transform: translateX(20px);
 }
 .sideDrawer .drawericon,
 .userDialog .drawericon {
@@ -81,6 +79,17 @@ a {
   display: inline-flex;
   min-width: 56px;
   flex-shrink: 0;
+}
+
+/* .MuiDrawer-root .MuiPaper-root {
+  transform: translateX(-35px) !important;
+} */
+
+.MuiDialog-root,
+.MuiDrawer-root,
+.MuiBackdrop-root {
+  width: 100vw;
+  height: 99vh;
 }
 .userDialog > h2 {
   font-weight: bold;
