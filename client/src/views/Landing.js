@@ -1,7 +1,7 @@
 import React from "react";
 //import Footer from "../components/Footer";
 import Home from "../components/Home";
-//import Test from "../components/Test";
+import Carousel from "../components/Carousel";
 import Header from "../components/Header";
 
 export default function Landing() {
@@ -10,6 +10,7 @@ export default function Landing() {
       <div className="landingForeground">
         <Header />
         <Home />
+        <Carousel />
         {/* <Footer alignSelf="flex-end" /> */}
       </div>
       <div className="landingBackground"></div>

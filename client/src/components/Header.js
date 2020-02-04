@@ -147,9 +147,7 @@ export default function Header(props) {
             </ul>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose} color="black">
-              Close
-            </Button>
+            <Button onClick={handleClose}>Close</Button>
           </DialogActions>
         </Dialog>
       </div>

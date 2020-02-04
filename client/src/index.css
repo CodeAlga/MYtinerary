@@ -44,41 +44,6 @@ a {
   transform: scale(1.2);
 }
 
-/* --- HOME --- */
-.homeBox {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
-  padding: 0.5rem;
-}
-.homeBox .logo {
-  width: 100%;
-  height: auto;
-  padding: 0.5rem 0;
-}
-.homeBox .box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-shadow: 2px 3px 4px rgba(0, 0, 0, 0.7);
-}
-.homeBox .icon {
-  font-size: 4rem;
-  text-shadow: 2px 3px 4px rgba(0, 0, 0, 0.7);
-  padding: 1rem;
-}
-.homeBox .title {
-  margin: 1.5rem 0;
-  text-align: center;
-}
-.homeBox .text {
-  padding: 0 0.5rem;
-  margin: 0.2rem 0;
-  text-align: center;
-  font-weight: bold;
-}
-
 /* --- MENU --- */
 .menuBox {
   display: flex;
@@ -132,6 +97,46 @@ a {
   color: black;
   padding: 0 1rem;
   font-size: 1.3rem;
+}
+
+/* --- HOME --- */
+.homeBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0.5rem;
+}
+.homeBox .logo {
+  width: 100%;
+  height: auto;
+  padding: 0.5rem 0;
+}
+.homeBox .box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-shadow: 2px 3px 4px rgba(0, 0, 0, 0.7);
+}
+.homeBox .icon {
+  font-size: 4rem;
+  text-shadow: 2px 3px 4px rgba(0, 0, 0, 0.7);
+  padding: 0.5rem;
+}
+.homeBox .title {
+  margin: 1rem 0;
+  text-align: center;
+}
+.homeBox .text {
+  padding: 0 0.5rem;
+  margin: 0.2rem 0;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* --- CAROUSEL --- */
+.slickSlider {
+  width: 100vw;
 }
 
 /* --- FOOTER --- */
