@@ -80,11 +80,6 @@ a {
   min-width: 56px;
   flex-shrink: 0;
 }
-
-/* .MuiDrawer-root .MuiPaper-root {
-  transform: translateX(-35px) !important;
-} */
-
 .MuiDialog-root,
 .MuiDrawer-root,
 .MuiBackdrop-root {
@@ -142,6 +137,10 @@ a {
   text-align: center;
   font-weight: bold;
 }
+.MuiAppBar-root {
+  background-color: #333 !important;
+  height: 70px;
+}
 
 /* --- CAROUSEL --- */
 .slickSlider {
@@ -153,4 +152,38 @@ a {
   font-size: 2rem;
   text-shadow: 2px 3px 4px rgba(0, 0, 0, 0.7);
   background: rgba(0, 0, 0, 0);
+}
+.footerBox a {
+  text-decoration: none;
+  color: black;
+}
+
+/*--- --- --- CITIES BOX --- --- ---*/
+.citiesBox {
+  background: linear-gradient(45deg, #92baac 45px, transparent 45px) 64px 64px,
+    linear-gradient(
+      45deg,
+      #92baac 45px,
+      transparent 45px,
+      transparent 91px,
+      #e1ebbd 91px,
+      #e1ebbd 135px,
+      transparent 135px
+    ),
+    linear-gradient(
+      -45deg,
+      #92baac 23px,
+      transparent 23px,
+      transparent 68px,
+      #92baac 68px,
+      #92baac 113px,
+      transparent 113px,
+      transparent 158px,
+      #92baac 158px
+    );
+  background-color: #e1ebbd;
+  background-size: 128px 128px;
+}
+.cityDisplay {
+  padding-top: 90px;
 }

@@ -4,6 +4,7 @@ import Landing from "./views/Landing";
 import Cities from "./views/Cities";
 import RegisterView from "./views/RegisterView";
 import LoginView from "./views/LoginView";
+import CityView from "./views/CityView";
 
 class App extends Component {
   constructor(props) {
@@ -17,12 +18,13 @@ class App extends Component {
     fetch("cities/all")
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         this.setState({
-          listCities: data.cities
+          listCities: data
         });
       });
   }
+
+  /* getIde = (listCities) => {}; */
 
   render() {
     const classes = (theme) => ({
@@ -36,9 +38,18 @@ class App extends Component {
         <div className="App">
           <div className={classes.root}>
             <Route exact path="/" component={Landing} />
-            <Route path="/cities" component={Cities} />
+            <Route
+              path="/cities"
+              render={(props) => (
+                <Cities
+                  listCities={this.state.listCities}
+                  {...this.state.props}
+                />
+              )}
+            />
             <Route path="/register" component={RegisterView} />
             <Route path="/login" component={LoginView} />
+            <Route path="/city/:listCities.id" component={CityView} />
           </div>
         </div>
       </BrowserRouter>

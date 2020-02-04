@@ -18,6 +18,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import {
   faUserCircle,
   faUserPlus,
