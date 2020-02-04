@@ -26,7 +26,7 @@ mongoose
 app.use("/cities", require("./routes/cities"));
 
 app.listen(port, () => {
-  console.log("Fanchy smanchy server is runing on " + port + " port");
+  console.log("Fanchy smanchy server is runing on port " + port);
 });
 
 module.exports = app;
