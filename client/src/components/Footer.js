@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { BrowserRouter, Link } from "react-router-dom";
 import Box from "@material-ui/core/Box";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -16,9 +16,11 @@ export default function Footer() {
       alignSelf="center"
     >
       <footer>
-        <Link to="/">
-          <FontAwesomeIcon icon={faHome} />
-        </Link>
+        <BrowserRouter>
+          <Link to="/">
+            <FontAwesomeIcon icon={faHome} />
+          </Link>
+        </BrowserRouter>
       </footer>
     </Box>
   );

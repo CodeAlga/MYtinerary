@@ -10,7 +10,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      listCities: []
+      listCities: [],
+      listId: []
     };
   }
 
@@ -21,10 +22,18 @@ class App extends Component {
         this.setState({
           listCities: data
         });
+        this.getId(this.state.listCities);
       });
   }
 
-  /* getIde = (listCities) => {}; */
+  getId = (arr) => {
+    let arrayId = [];
+    arr.map((item) => {
+      arrayId.push(item._id);
+      return arrayId;
+    });
+    this.setState({ listId: arrayId });
+  };
 
   render() {
     const classes = (theme) => ({
@@ -49,7 +58,7 @@ class App extends Component {
             />
             <Route path="/register" component={RegisterView} />
             <Route path="/login" component={LoginView} />
-            <Route path="/city/:listCities.id" component={CityView} />
+            <Route path="/city/:listCities._id" component={CityView} />
           </div>
         </div>
       </BrowserRouter>

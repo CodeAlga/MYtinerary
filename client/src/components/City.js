@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
@@ -46,13 +45,11 @@ export default function Cities(props) {
             {props.country}
           </Typography>
           <CardContent className={classes.content}>
-            <Link to={`/city/${props.id}`} params={{ props }}>
-              <CardMedia
-                className={classes.media}
-                src={props.img}
-                image={props.img}
-              />
-            </Link>
+            <CardMedia
+              className={classes.media}
+              src={props.img}
+              image={props.img}
+            />
           </CardContent>
         </CardContent>
       </Card>

@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, BrowserRouter } from "react-router-dom";
 
 import Logo from "../images/MYtineraryLogo.png";
 
@@ -15,9 +15,11 @@ export default function Home() {
         cities.
       </h3>
       <div className="box">
-        <Link to={{ pathname: "/cities" }}>
-          <FontAwesomeIcon className="icon" icon={faArrowCircleRight} />
-        </Link>
+        <BrowserRouter>
+          <Link to={{ pathname: "/cities" }}>
+            <FontAwesomeIcon className="icon" icon={faArrowCircleRight} />
+          </Link>
+        </BrowserRouter>
       </div>
       <div>
         <p>Popular MYtineraries</p>

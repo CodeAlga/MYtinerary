@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, BrowserRouter } from "react-router-dom";
 
 import Drawer from "@material-ui/core/Drawer";
 import IconButton from "@material-ui/core/IconButton";
@@ -137,20 +137,22 @@ export default function Header(props) {
             {"Welcome!"}
           </DialogTitle>
           <DialogContent className="userDialog">
-            <ul>
-              <li>
-                <FontAwesomeIcon className="drawericon" icon={faSignInAlt} />
-                <Link to={{ pathname: "/login" }}>
-                  <p>Log in</p>
-                </Link>
-              </li>
-              <li>
-                <FontAwesomeIcon className="drawericon" icon={faUserPlus} />
-                <Link to={{ pathname: "/register" }}>
-                  <p>Create Account</p>
-                </Link>
-              </li>
-            </ul>
+            <BrowserRouter>
+              <ul>
+                <li>
+                  <FontAwesomeIcon className="drawericon" icon={faSignInAlt} />
+                  <Link to={{ pathname: "/login" }}>
+                    <p>Log in</p>
+                  </Link>
+                </li>
+                <li>
+                  <FontAwesomeIcon className="drawericon" icon={faUserPlus} />
+                  <Link to={{ pathname: "/register" }}>
+                    <p>Create Account</p>
+                  </Link>
+                </li>
+              </ul>
+            </BrowserRouter>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Close</Button>
