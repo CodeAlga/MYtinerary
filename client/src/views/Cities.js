@@ -6,11 +6,10 @@ import Header from "../components/Header";
 
 import useScrollTrigger from "@material-ui/core/useScrollTrigger";
 import AppBar from "@material-ui/core/AppBar";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import Toolbar from "@material-ui/core/Toolbar";
 import Slide from "@material-ui/core/Slide";
 
-function HideOnScroll(props) {
+function HideOnScrollUp(props) {
   const { children, window } = props;
 
   const trigger = useScrollTrigger({ target: window ? window() : undefined });
@@ -27,26 +26,24 @@ export default function Cities(props) {
 
   return (
     <div className="citiesBox">
-      <React.Fragment>
-        <CssBaseline />
-        <HideOnScroll {...props}>
-          <AppBar position="fixed">
-            <Toolbar>
-              <div>
-                <Header />
-              </div>
-            </Toolbar>
-          </AppBar>
-        </HideOnScroll>
+      <HideOnScrollUp {...props}>
+        <AppBar position="fixed">
+          <Toolbar>
+            <div>
+              <Header />
+            </div>
+          </Toolbar>
+        </AppBar>
+      </HideOnScrollUp>
 
-        <div className="cityDisplay">
-          {listCities.map((city, i) => {
-            return <City {...city} key={i} />;
-          })}
-        </div>
-
+      <div className="cityDisplay">
+        {listCities.map((city, i) => {
+          return <City {...city} key={i} />;
+        })}
+      </div>
+      <AppBar position="sticky" className="fixedFooter">
         <Footer />
-      </React.Fragment>
+      </AppBar>
     </div>
   );
 }

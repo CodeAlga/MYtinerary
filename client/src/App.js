@@ -46,7 +46,16 @@ class App extends Component {
       <BrowserRouter>
         <div className="App">
           <div className={classes.root}>
-            <Route exact path="/" component={Landing} />
+            <Route
+              exact
+              path="/"
+              render={(props) => (
+                <Landing
+                  listCities={this.state.listCities}
+                  {...this.state.props}
+                />
+              )}
+            />
             <Route
               path="/cities"
               render={(props) => (
