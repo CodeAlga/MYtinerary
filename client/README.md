@@ -1,3 +1,6 @@
+This branch stops at the end of the second Sprint.
+Up to date this branch contains all the router functionality and the server functionality to display the landing page, the list of citys and the CRUD hardcoded operations as the collection of cities in the database.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
