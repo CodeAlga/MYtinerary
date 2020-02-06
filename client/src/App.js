@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Landing from "./views/Landing";
 import Cities from "./views/Cities";
 import RegisterView from "./views/RegisterView";
@@ -46,28 +46,30 @@ class App extends Component {
       <BrowserRouter>
         <div className="App">
           <div className={classes.root}>
-            <Route
-              exact
-              path="/"
-              render={(props) => (
-                <Landing
-                  listCities={this.state.listCities}
-                  {...this.state.props}
-                />
-              )}
-            />
-            <Route
-              path="/cities"
-              render={(props) => (
-                <Cities
-                  listCities={this.state.listCities}
-                  {...this.state.props}
-                />
-              )}
-            />
-            <Route path="/register" component={RegisterView} />
-            <Route path="/login" component={LoginView} />
-            <Route path="/city/:listCities._id" component={CityView} />
+            <Switch>
+              <Route
+                exact
+                path="/"
+                render={(props) => (
+                  <Landing
+                    listCities={this.state.listCities}
+                    {...this.state.props}
+                  />
+                )}
+              />
+              <Route
+                path="/cities"
+                render={(props) => (
+                  <Cities
+                    listCities={this.state.listCities}
+                    {...this.state.props}
+                  />
+                )}
+              />
+              <Route path="/register" component={RegisterView} />
+              <Route path="/login" component={LoginView} />
+              <Route path="/city/:listCities._id" component={CityView} />
+            </Switch>
           </div>
         </div>
       </BrowserRouter>
