@@ -22,8 +22,6 @@ function HideOnScrollUp(props) {
 }
 
 export default function Cities(props) {
-  const { listCities } = props;
-
   return (
     <div className="citiesBox">
       <HideOnScrollUp {...props}>
@@ -35,12 +33,14 @@ export default function Cities(props) {
           </Toolbar>
         </AppBar>
       </HideOnScrollUp>
-
       <div className="cityDisplay">
+        <City />
+      </div>
+      {/* <div className="cityDisplay">
         {listCities.map((city, i) => {
           return <City {...city} key={i} />;
         })}
-      </div>
+      </div> */}
       <AppBar position="sticky" className="fixedFooter">
         <Footer />
       </AppBar>

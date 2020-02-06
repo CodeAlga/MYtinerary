@@ -32,11 +32,11 @@ a {
   height: 100vh;
 }
 .landingBox .landingBackground {
-  background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(5, 5, 5, 0.7)),
-    url(./images/56711-O8P8GQ-518.jpg);
-  filter: blur(2px);
-  background-repeat: no-repeat;
-  background-size: cover;
+  background-image: linear-gradient(rgba(5, 5, 5, 0.4), rgba(55, 55, 55, 0.1)),
+    url(./images/bg_pattern.svg);
+  filter: blur(1px);
+  background-repeat: repeat;
+  background-size: contain;
   z-index: -1;
   height: 100vh;
 }
@@ -50,7 +50,8 @@ a {
   width: 95vw;
 }
 .menuBox .icon {
-  font-size: 3rem;
+  font-size: 2.5rem;
+  filter: drop-shadow(2px 3px 4px rgba(0, 0, 0, 0.7));
 }
 .menuBox .userIcon {
   align-self: center;
@@ -60,7 +61,8 @@ a {
 }
 
 .menuBox svg {
-  font-size: 3rem;
+  font-size: 2.5rem;
+  filter: drop-shadow(2px 3px 4px rgba(0, 0, 0, 0.7));
 }
 .sideDrawer {
   height: inherit;
@@ -110,7 +112,7 @@ a {
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  padding: 0.5rem;
+  padding: 0 0.5rem 1.5rem;
 }
 .homeBox .logo {
   width: 100%;
@@ -125,12 +127,14 @@ a {
 }
 .homeBox .icon {
   font-size: 4rem;
-  text-shadow: 2px 3px 4px rgba(0, 0, 0, 0.7);
+  filter: drop-shadow(2px 3px 4px rgba(0, 0, 0, 0.7));
   padding: 0.5rem;
 }
 .homeBox .title {
   margin: 1rem 0;
   text-align: center;
+  font-size: 1.7rem;
+  filter: drop-shadow(2px 3px 4px rgba(0, 0, 0, 0.7));
 }
 .homeBox .text {
   padding: 0 0.5rem;
@@ -140,7 +144,7 @@ a {
 }
 .MuiAppBar-root {
   background-color: #333 !important;
-  height: 70px;
+  height: 60px;
 }
 
 /* --- CAROUSEL --- */
@@ -222,6 +226,10 @@ a {
 .cityDisplay {
   padding-top: 75px;
   min-height: 100vh;
+}
+
+.citiesBox .MuiToolbar-gutters {
+  padding: 0;
 }
 
 /* --- CITY --- */

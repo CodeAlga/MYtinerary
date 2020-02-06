@@ -10,30 +10,9 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      listCities: [],
-      listId: []
+      listCities: []
     };
   }
-
-  componentDidMount() {
-    fetch("cities/all")
-      .then((res) => res.json())
-      .then((data) => {
-        this.setState({
-          listCities: data
-        });
-        this.getId(this.state.listCities);
-      });
-  }
-
-  getId = (arr) => {
-    let arrayId = [];
-    arr.map((item) => {
-      arrayId.push(item._id);
-      return arrayId;
-    });
-    this.setState({ listId: arrayId });
-  };
 
   render() {
     const classes = (theme) => ({
@@ -50,12 +29,13 @@ class App extends Component {
               <Route
                 exact
                 path="/"
-                render={(props) => (
+                component={Landing}
+                /* render={(props) => (
                   <Landing
                     listCities={this.state.listCities}
                     {...this.state.props}
                   />
-                )}
+                )} */
               />
               <Route
                 path="/cities"

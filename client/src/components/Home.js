@@ -19,9 +19,9 @@ export default function Home() {
           <FontAwesomeIcon className="icon" icon={faArrowCircleRight} />
         </Link>
       </div>
-      <div>
+      {/* <div>
         <p>Popular MYtineraries</p>
-      </div>
+      </div> */}
     </div>
   );
 }
