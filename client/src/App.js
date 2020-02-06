@@ -1,17 +1,39 @@
 import React, { Component } from "react";
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Landing from "./views/Landing";
 import Cities from "./views/Cities";
 import RegisterView from "./views/RegisterView";
 import LoginView from "./views/LoginView";
+import CityView from "./views/CityView";
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      background: []
+      listCities: [],
+      listId: []
     };
   }
+
+  componentDidMount() {
+    fetch("cities/all")
+      .then((res) => res.json())
+      .then((data) => {
+        this.setState({
+          listCities: data
+        });
+        this.getId(this.state.listCities);
+      });
+  }
+
+  getId = (arr) => {
+    let arrayId = [];
+    arr.map((item) => {
+      arrayId.push(item._id);
+      return arrayId;
+    });
+    this.setState({ listId: arrayId });
+  };
 
   render() {
     const classes = (theme) => ({
@@ -24,16 +46,30 @@ class App extends Component {
       <BrowserRouter>
         <div className="App">
           <div className={classes.root}>
-            <Route
-              exact
-              path="/"
-              render={(props) => (
-                <Landing backgroundImage={this.state.background} {...props} />
-              )}
-            />
-            <Route path="/cities" component={Cities} />
-            <Route path="/register" component={RegisterView} />
-            <Route path="/login" component={LoginView} />
+            <Switch>
+              <Route
+                exact
+                path="/"
+                render={(props) => (
+                  <Landing
+                    listCities={this.state.listCities}
+                    {...this.state.props}
+                  />
+                )}
+              />
+              <Route
+                path="/cities"
+                render={(props) => (
+                  <Cities
+                    listCities={this.state.listCities}
+                    {...this.state.props}
+                  />
+                )}
+              />
+              <Route path="/register" component={RegisterView} />
+              <Route path="/login" component={LoginView} />
+              <Route path="/city/:listCities._id" component={CityView} />
+            </Switch>
           </div>
         </div>
       </BrowserRouter>
