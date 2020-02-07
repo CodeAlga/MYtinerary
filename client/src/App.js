@@ -26,26 +26,8 @@ class App extends Component {
         <div className="App">
           <div className={classes.root}>
             <Switch>
-              <Route
-                exact
-                path="/"
-                component={Landing}
-                /* render={(props) => (
-                  <Landing
-                    listCities={this.state.listCities}
-                    {...this.state.props}
-                  />
-                )} */
-              />
-              <Route
-                path="/cities"
-                render={(props) => (
-                  <Cities
-                    listCities={this.state.listCities}
-                    {...this.state.props}
-                  />
-                )}
-              />
+              <Route exact path="/" component={Landing} />
+              <Route path="/cities" component={Cities} />
               <Route path="/register" component={RegisterView} />
               <Route path="/login" component={LoginView} />
               <Route path="/city/:listCities._id" component={CityView} />

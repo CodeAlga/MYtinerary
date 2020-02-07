@@ -2,6 +2,7 @@ import React from "react";
 
 import { connect } from "react-redux";
 import { fetchCities } from "../store/actions/cityActions";
+//import { search } from "../store/actions/searchAction";
 
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -14,7 +15,7 @@ class City extends React.Component {
   }
 
   render() {
-    const { error, loading, cities } = this.props;
+    const { error, loading, cities, search } = this.props;
 
     if (error) {
       return <div>Error! {error.message}</div>;
@@ -24,9 +25,14 @@ class City extends React.Component {
       return <div>Loading...</div>;
     }
 
+    const searchValue = search.charAt(0).toUpperCase() + search.slice(1);
+    const searchCities = cities.filter((city) => {
+      return Object.keys(city).some((key) => city[key].startsWith(searchValue));
+    });
+
     return (
       <div className="cityBox">
-        {cities.map((city, i) => {
+        {searchCities.map((city, i) => {
           return (
             <Card className="root" key={i}>
               <CardContent>
@@ -55,7 +61,8 @@ class City extends React.Component {
 const mapStateToProps = (state) => ({
   cities: state.cities.cities,
   loading: state.cities.loading,
-  error: state.cities.error
+  error: state.cities.error,
+  search: state.search.value
 });
 
 export default connect(mapStateToProps)(City);

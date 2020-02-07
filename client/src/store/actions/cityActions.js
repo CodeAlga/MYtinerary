@@ -37,33 +37,3 @@ function handleErrors(response) {
   }
   return response;
 }
-
-// export const REQUEST_CITIES = "FETCH_CITIES";
-// export const RECEIVE_CITIES = "REFRESH_CITIES";
-
-// export function requestCities(listCities) {
-//   return {
-//     type: REQUEST_CITIES,
-//     listCities
-//   };
-// }
-
-// export function receiveCities(listCities) {
-//   return {
-//     type: RECEIVE_CITIES,
-//     listCities,
-//     posts: json.data,
-//     receivedAt: Date.now()
-//   };
-// }
-// export function fetchCities(listCities) {
-//   return (dispatch) => {
-//     dispatch(requestCities(listCities));
-//     return fetch("cities/all")
-//       .then(
-//         (res) => res.json(),
-//         (error) => console.log("Shite", error)
-//       )
-//       .then((json) => dispatch(receiveCities(listCities, json)));
-//   };
-// }

@@ -8,6 +8,7 @@ import useScrollTrigger from "@material-ui/core/useScrollTrigger";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Slide from "@material-ui/core/Slide";
+import SearchBar from "../components/SearchBar";
 
 function HideOnScrollUp(props) {
   const { children, window } = props;
@@ -33,14 +34,11 @@ export default function Cities(props) {
           </Toolbar>
         </AppBar>
       </HideOnScrollUp>
+
       <div className="cityDisplay">
+        <SearchBar />
         <City />
       </div>
-      {/* <div className="cityDisplay">
-        {listCities.map((city, i) => {
-          return <City {...city} key={i} />;
-        })}
-      </div> */}
       <AppBar position="sticky" className="fixedFooter">
         <Footer />
       </AppBar>
