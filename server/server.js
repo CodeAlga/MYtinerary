@@ -18,12 +18,13 @@ mongoose
   .connect(db, { useNewUrlParser: true, useCreateIndex: true })
   .then(() => console.log("Connected to fanchy smanchy Mongo DB"))
   .catch((err) => console.log(err));
-
+mongoose.Promise = global.Promise;
 //
 // GETTING ROUTES
 //
 
 app.use("/cities", require("./routes/cities"));
+app.use("/itineraries", require("./routes/itineraries"));
 
 app.listen(port, () => {
   console.log("Fanchy smanchy server is runing on port " + port);
