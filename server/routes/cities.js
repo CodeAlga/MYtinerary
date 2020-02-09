@@ -14,9 +14,7 @@ router.post("/city/", (req, res) => {
   newCity
     .save()
     .then((city) => {
-      console.log(city);
       res.send(city);
-      process.exit(0);
     })
     .catch((err) => {
       res.send(err);
@@ -72,7 +70,7 @@ router.delete("/:id", (req, res) => {
 });
 
 //
-// DELETE OPERATION THOUGH NOT NEEDED
+// UPDATE OPERATION THOUGH NOT NEEDED
 //
 
 router.put("/:id", (req, res) => {

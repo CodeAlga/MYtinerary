@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const citySchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, "We need the name of the city"],
+    required: true,
     unique: true
   },
   country: {

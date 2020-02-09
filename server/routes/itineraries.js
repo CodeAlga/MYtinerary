@@ -52,4 +52,23 @@ router.get("/:id", (req, res) => {
     .catch((err) => console.log(err));
 });
 
+//
+// UPDATE OPERATION THOUGH NOT NEEDED
+//
+
+router.put("/:id", (req, res) => {
+  ityneraryModel
+    .findByIdAndUpdate({ _id: req.params.id }, req.body)
+    .then(() => {
+      itineraryModel.findOne(
+        { _id: req.params.is }.then(function(itinerary) {
+          res.send(itinerary);
+        })
+      );
+    })
+    .catch((err) => {
+      res.status(500).send("Server error");
+    });
+});
+
 module.exports = router;

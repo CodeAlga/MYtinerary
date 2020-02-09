@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
-const cityModel = require("../model/cityModel");
 
 const itinerarySchema = new mongoose.Schema({
   city_ref: {
-    type: mongoose.ObjectId
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "City"
   },
   name: {
     type: String,
