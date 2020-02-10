@@ -28,7 +28,7 @@ router.post("/activity/", (req, res) => {
 });
 
 //
-// GET ALL CITIES
+// GET ALL ACTIVITIES
 //
 
 router.get("/all", (req, res) => {
@@ -39,8 +39,22 @@ router.get("/all", (req, res) => {
     })
     .catch((err) => console.log(err));
 });
+
 //
-// GET CITY BY ID
+// GET ALL ACTIVITIES FOR A GIVEN ITINERARIES
+//
+
+router.get("/itinerary/:id", (req, res) => {
+  activityModel
+    .find({ itinerary_ref: req.params.id })
+    .then((activities) => {
+      res.send(activities);
+    })
+    .catch((err) => console.log(err));
+});
+
+//
+// GET ACTIVITY BY ID
 //
 
 router.get("/activity/:id", (req, res) => {

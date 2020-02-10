@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import { connect } from "react-redux";
 import { fetchCities } from "../store/actions/cityActions";
@@ -41,13 +42,16 @@ class City extends React.Component {
                 <Typography className="pos" color="textSecondary">
                   {city.country}
                 </Typography>
-                <CardContent className="content">
-                  <CardMedia
-                    className="media"
-                    src={city.img}
-                    image={city.img}
-                  />
-                </CardContent>
+                <Link to={`/itineraries/city/${city._id}`}>
+                  {/* <Link to={"/itineraries/city/" + city._id}> */}
+                  <CardContent className="content">
+                    <CardMedia
+                      className="media"
+                      src={city.img}
+                      image={city.img}
+                    />
+                  </CardContent>
+                </Link>
               </CardContent>
             </Card>
           );

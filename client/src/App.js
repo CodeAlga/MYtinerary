@@ -4,7 +4,7 @@ import Landing from "./views/Landing";
 import Cities from "./views/Cities";
 import RegisterView from "./views/RegisterView";
 import LoginView from "./views/LoginView";
-import CityView from "./views/CityView";
+import CityDetail from "./views/CityDetail";
 
 class App extends Component {
   constructor(props) {
@@ -30,7 +30,7 @@ class App extends Component {
               <Route path="/cities" component={Cities} />
               <Route path="/register" component={RegisterView} />
               <Route path="/login" component={LoginView} />
-              <Route path="/city/:listCities._id" component={CityView} />
+              <Route path="/itineraries/city/:id/" component={CityDetail} />
             </Switch>
           </div>
         </div>

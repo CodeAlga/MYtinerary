@@ -37,10 +37,7 @@ router.get("/all", (req, res) => {
 // GET CITY BY ID
 //
 
-router.get("/:id", (req, res) => {
-  // let id = req.params.id;
-  // console.log(id);
-
+router.get("/city/:id", (req, res) => {
   cityModel
     .findById({
       _id: req.params.id

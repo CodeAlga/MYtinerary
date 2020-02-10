@@ -28,7 +28,7 @@ router.post("/itinerary/", (req, res) => {
 });
 
 //
-// GET ALL ITINERARIES FOR A GIVEN CITY
+// GET ALL ITINERARIES
 //
 
 router.get("/all", (req, res) => {
@@ -39,11 +39,27 @@ router.get("/all", (req, res) => {
     })
     .catch((err) => console.log(err));
 });
+
+//
+// GET ALL ITINERARIES FOR A GIVEN CITY
+//
+
+router.get("/city/:id", (req, res) => {
+  console.log("im in the get");
+
+  itinerayModel
+    .find({ city_ref: req.params.id })
+    .then((itinerearies) => {
+      res.send(itinerearies);
+    })
+    .catch((err) => console.log(err));
+});
+
 //
 // GET ITINERART BY ID
 //
 
-router.get("/:id", (req, res) => {
+router.get("/itinerary/:id", (req, res) => {
   itinerayModel
     .findById({ _id: req.params.id })
     .then((itinerary) => {
