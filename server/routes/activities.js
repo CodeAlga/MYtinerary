@@ -54,6 +54,19 @@ router.get("/itinerary/:id", (req, res) => {
 });
 
 //
+// GET ALL ACTIVITIES FOR A GIVEN CITY
+//
+
+router.get("/city/:id", (req, res) => {
+  activityModel
+    .find({ city_ref: req.params.id })
+    .then((activities) => {
+      res.send(activities);
+    })
+    .catch((err) => console.log(err));
+});
+
+//
 // GET ACTIVITY BY ID
 //
 
