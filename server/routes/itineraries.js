@@ -1,13 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const itinerayModel = require("../model/itineraryModel");
+const itineraryModel = require("../model/itineraryModel");
 
 //
 // POST CITY TO DB
 //
 
 router.post("/itinerary/", (req, res) => {
-  const newItinerary = new itinerayModel({
+  const newItinerary = new itineraryModel({
     city_ref: req.body.city_ref,
     name: req.body.name,
     city: req.body.city,
@@ -32,7 +32,7 @@ router.post("/itinerary/", (req, res) => {
 //
 
 router.get("/all", (req, res) => {
-  itinerayModel
+  itineraryModel
     .find({})
     .then((itinerearies) => {
       res.send(itinerearies);
@@ -45,9 +45,7 @@ router.get("/all", (req, res) => {
 //
 
 router.get("/city/:id", (req, res) => {
-  console.log("im in the get");
-
-  itinerayModel
+  itineraryModel
     .find({ city_ref: req.params.id })
     .then((itinerearies) => {
       res.send(itinerearies);
@@ -60,7 +58,7 @@ router.get("/city/:id", (req, res) => {
 //
 
 router.get("/itinerary/:id", (req, res) => {
-  itinerayModel
+  itineraryModel
     .findById({ _id: req.params.id })
     .then((itinerary) => {
       res.send(itinerary);
@@ -73,17 +71,15 @@ router.get("/itinerary/:id", (req, res) => {
 //
 
 router.put("/:id", (req, res) => {
-  ityneraryModel
+  itineraryModel
     .findByIdAndUpdate({ _id: req.params.id }, req.body)
     .then(() => {
-      itineraryModel.findOne(
-        { _id: req.params.is }.then(function(itinerary) {
-          res.send(itinerary);
-        })
-      );
+      itineraryModel.findOne({ _id: req.params.id }).then(function(itinerary) {
+        res.send(itinerary);
+      });
     })
     .catch((err) => {
-      res.status(500).send("Server error");
+      res.send("Server error" + err);
     });
 });
 

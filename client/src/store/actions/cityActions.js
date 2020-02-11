@@ -23,8 +23,10 @@ export function fetchCities() {
       .then(handleErrors)
       .then((res) => res.json())
       .then((json) => {
-        dispatch(fetchCitiesSuccess(json));
-        return json;
+        setTimeout(() => {
+          dispatch(fetchCitiesSuccess(json));
+          return json;
+        }, 1000);
       })
       .catch((error) => dispatch(fetchCitiesFailure(error)));
   };

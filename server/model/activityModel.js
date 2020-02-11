@@ -19,7 +19,7 @@ const activitySchema = new mongoose.Schema({
     required: true
   },
   img: {
-    type: Array
+    type: String
   },
   hours: {
     type: Number

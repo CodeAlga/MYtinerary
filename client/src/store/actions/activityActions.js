@@ -16,15 +16,17 @@ export const fetchActivitiesFailure = (error) => ({
   payload: { error }
 });
 
-export function fetchActivities(city_ref) {
+export function fetchActivities(itinerary_ref) {
   return (dispatch) => {
     dispatch(fetchActivitiesBegin());
-    return fetch("/activities/city/" + city_ref)
+    return fetch("/activities/itinerary/" + itinerary_ref)
       .then(handleErrors)
       .then((res) => res.json())
       .then((json) => {
-        dispatch(fetchActivitiesSuccess(json));
-        return json;
+        setTimeout(() => {
+          dispatch(fetchActivitiesSuccess(json));
+          return json;
+        }, 500);
       })
       .catch((error) => dispatch(fetchActivitiesFailure(error)));
   };

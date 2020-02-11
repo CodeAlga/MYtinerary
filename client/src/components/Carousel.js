@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { fetchCities } from "../store/actions/cityActions";
 
@@ -7,8 +7,13 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-import { Card, CardContent, CardMedia } from "@material-ui/core";
-import Typography from "@material-ui/core/Typography";
+import {
+  Card,
+  CardContent,
+  CardMedia,
+  Typography,
+  CircularProgress
+} from "@material-ui/core";
 
 class Carousel extends React.Component {
   componentDidMount() {
@@ -62,7 +67,11 @@ class Carousel extends React.Component {
     }
 
     if (loading) {
-      return <div>Loading...</div>;
+      return (
+        <div className="spinner">
+          <CircularProgress color="secondary" />
+        </div>
+      );
     }
 
     return (
@@ -72,13 +81,16 @@ class Carousel extends React.Component {
             return (
               <Card className="root" key={i}>
                 <CardContent className="content">
-                  <Typography variant="h5" component="h2">
-                    {city.name}
-                  </Typography>
-                  <Typography className="pos" color="textSecondary">
-                    {city.country}
-                  </Typography>
+                  <Link to={{ pathname: `/itineraries/city/${city._id}` }}>
+                    <Typography variant="h5" component="h2">
+                      {city.name}
+                    </Typography>
+                    <Typography className="pos" color="textSecondary">
+                      {city.country}
+                    </Typography>
+                  </Link>
                 </CardContent>
+
                 <CardContent className="mediaContent">
                   <CardMedia
                     className="media"

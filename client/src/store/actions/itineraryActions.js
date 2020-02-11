@@ -23,8 +23,10 @@ export function fetchItineraries(city_ref) {
       .then(handleErrors)
       .then((res) => res.json())
       .then((json) => {
-        dispatch(fetchItinerariesSuccess(json));
-        return json;
+        setTimeout(() => {
+          dispatch(fetchItinerariesSuccess(json));
+          return json;
+        }, 1000);
       })
       .catch((error) => dispatch(fetchItinerariesFailure(error)));
   };

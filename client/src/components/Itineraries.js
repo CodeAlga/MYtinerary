@@ -1,60 +1,73 @@
 import React, { Component } from "react";
+import Activities from "./Activities";
 
 import { connect } from "react-redux";
 import { fetchItineraries } from "../store/actions/itineraryActions";
-import { fetchActivities } from "../store/actions/activityActions";
+
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  Typography,
+  Avatar,
+  CircularProgress
+} from "@material-ui/core";
 
 class Itinerary extends Component {
   componentDidMount() {
     this.props.dispatch(fetchItineraries(this.props.city_ref));
-    this.props.dispatch(fetchActivities(this.props.city_ref));
   }
 
   render() {
-    console.log(this.props);
-    const {
-      itineraryError,
-      activityError,
-      itineraryLoading,
-      activityLoading,
-      itineraries,
-      activities
-    } = this.props;
+    const { error, loading, itineraries } = this.props;
 
-    if (itineraryError || activityError) {
+    if (error) {
+      return <div>Error! {error.message}</div>;
+    }
+
+    if (loading) {
       return (
-        <div>Error! {itineraryError.message || activityError.message}</div>
+        <div className="spinner fullPageSpinner">
+          <CircularProgress color="secondary" />
+        </div>
       );
     }
 
-    if (itineraryLoading || activityLoading) {
-      return <div>Loading...</div>;
-    }
-
     return (
-      <div>
-        <div>
-          {itineraries.map((itinerary, i) => {
-            return (
-              <div key={i}>
-                <ul>
-                  <li>{itinerary.name}</li>
-                </ul>
-              </div>
-            );
-          })}
-        </div>
-        <div>
-          {activities.map((activity, i) => {
-            return (
-              <div key={i}>
-                <ul>
-                  <li>{activity.name}</li>
-                </ul>
-              </div>
-            );
-          })}
-        </div>
+      <div className="itineraryBox">
+        {itineraries.map((itinerary, i) => {
+          return (
+            <Card className="root" key={i}>
+              <CardHeader
+                avatar={
+                  <Avatar aria-label="recipe" className="avatar">
+                    {itinerary.username.charAt(0).toUpperCase()}
+                  </Avatar>
+                }
+                title={itinerary.username}
+                subheader={
+                  <div className="itinerarySubheader">
+                    <span>Likes: {itinerary.rating}</span>
+                    <span>{itinerary.duration}hrs</span>
+                    <span>{itinerary.price}</span>
+                  </div>
+                }
+              />
+              <CardContent>
+                <Typography variant="h5" component="h2">
+                  {itinerary.name}
+                </Typography>
+                <Typography className="pos" color="textSecondary">
+                  {itinerary.hashtags.map((hashtag, i) => {
+                    return <span key={i}>{hashtag} </span>;
+                  })}
+                </Typography>
+
+                <Activities itinerary_ref={itinerary._id} />
+              </CardContent>
+            </Card>
+          );
+        })}
       </div>
     );
   }
@@ -62,11 +75,8 @@ class Itinerary extends Component {
 
 const mapStateToProps = (state) => ({
   itineraries: state.itineraries.itineraries,
-  itineraryLoading: state.itineraries.loading,
-  itineraryError: state.itineraries.error,
-  activities: state.activities.activities,
-  activityLoading: state.activities.loading,
-  activityError: state.activities.error
+  loading: state.itineraries.loading,
+  error: state.itineraries.error
 });
 
 export default connect(mapStateToProps)(Itinerary);

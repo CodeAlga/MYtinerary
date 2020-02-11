@@ -41,7 +41,7 @@ router.get("/all", (req, res) => {
 });
 
 //
-// GET ALL ACTIVITIES FOR A GIVEN ITINERARIES
+// GET ALL ACTIVITIES FOR A GIVEN ITINERARY
 //
 
 router.get("/itinerary/:id", (req, res) => {
@@ -82,6 +82,23 @@ router.get("/activity/:id", (req, res) => {
       res.send(activity);
     })
     .catch((err) => console.log(err));
+});
+
+//
+// UPDATE OPERATION
+//
+
+router.put("/:id", (req, res) => {
+  activityModel
+    .findByIdAndUpdate({ _id: req.params.id }, req.body)
+    .then(() => {
+      activityModel.findOne({ _id: req.params.id }).then(function(activity) {
+        res.send(activity);
+      });
+    })
+    .catch((err) => {
+      res.status(500).send("Server error" + err);
+    });
 });
 
 module.exports = router;

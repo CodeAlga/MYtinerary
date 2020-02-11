@@ -27,7 +27,7 @@ export default function activitiesReducer(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        activities: action.payload.activities
+        activities: state.activities.concat(action.payload.activities)
       };
 
     case FETCH_ACTIVITIES_FAILURE:

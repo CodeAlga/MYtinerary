@@ -4,10 +4,13 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { fetchCities } from "../store/actions/cityActions";
 
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import CardMedia from "@material-ui/core/CardMedia";
-import Typography from "@material-ui/core/Typography";
+import {
+  Card,
+  CardContent,
+  CardMedia,
+  Typography,
+  CircularProgress
+} from "@material-ui/core";
 
 class City extends React.Component {
   componentDidMount() {
@@ -22,7 +25,11 @@ class City extends React.Component {
     }
 
     if (loading) {
-      return <div>Loading...</div>;
+      return (
+        <div className="spinner">
+          <CircularProgress color="secondary" />
+        </div>
+      );
     }
 
     const searchValue = search.charAt(0).toUpperCase() + search.slice(1);
