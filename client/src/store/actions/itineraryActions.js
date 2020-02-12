@@ -17,9 +17,9 @@ export const fetchItinerariesFailure = (error) => ({
 });
 
 export function fetchItineraries(city_ref) {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(fetchItinerariesBegin());
-    return fetch("/itineraries/city/" + city_ref)
+    await fetch("/itineraries/city/" + city_ref)
       .then(handleErrors)
       .then((res) => res.json())
       .then((json) => {

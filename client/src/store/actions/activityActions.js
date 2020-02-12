@@ -17,9 +17,9 @@ export const fetchActivitiesFailure = (error) => ({
 });
 
 export function fetchActivities(itinerary_ref) {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(fetchActivitiesBegin());
-    return fetch("/activities/itinerary/" + itinerary_ref)
+    await fetch("/activities/itinerary/" + itinerary_ref)
       .then(handleErrors)
       .then((res) => res.json())
       .then((json) => {

@@ -17,9 +17,9 @@ export const fetchCitiesFailure = (error) => ({
 });
 
 export function fetchCities() {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(fetchCitiesBegin());
-    return fetch("/cities/all")
+    await fetch("/cities/all")
       .then(handleErrors)
       .then((res) => res.json())
       .then((json) => {

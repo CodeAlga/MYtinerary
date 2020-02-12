@@ -1,14 +1,14 @@
-import React from "react";
+/* import React from "react";
 import ReactDOM from "react-dom";
 import { render } from "@testing-library/react";
 import App from "../App";
-import Landing from "./Landing";
+import Landing from "./Landing"; */
 
 //import { shallow } from "enzyme";
 
 //import toJson from "enzyme-to-json";
 
-test("renders learn react link", () => {
+/* test("renders learn react link", () => {
   const { getByText } = render(<App />);
 });
 describe("what is the unit under test?", () => {
@@ -17,7 +17,7 @@ describe("what is the unit under test?", () => {
     ReactDOM.render(<Landing />, div);
     ReactDOM.unmountComponentAtNode(div);
   });
-});
+}); */
 
 // it("Landing component should render without crashing", () => {
 //   shallow(<Landing />);
