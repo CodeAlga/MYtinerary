@@ -28,6 +28,24 @@ a {
 .fullPageSpinner {
   height: 100vh;
 }
+.preview {
+  margin: 5px;
+  height: 100px;
+  width: auto;
+  border: 2px solid gray;
+  border-radius: 4px;
+  background-size: cover;
+  background-color: whitesmoke;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.preview img {
+  height: 100%;
+}
+
 /* --- LANDIGN PAGE --- */
 .landingBox {
   color: white;
@@ -203,12 +221,15 @@ a {
   margin-bottom: 12px;
 }
 .slickSlider .content {
-  padding: 0 0.5rem 1.5rem 1rem;
+  padding: 0 0.5rem 0.5rem 1rem;
 }
 .slickSlider .mediaContent {
   flex-grow: 1;
   display: flex;
   padding: 0;
+}
+.MuiCardContent-root:last-child {
+  padding-bottom: 10px !important;
 }
 .slickSlider .media {
   height: fit-container;
@@ -388,4 +409,26 @@ a {
 .activityBox .commentForm input {
   background-color: whitesmoke;
   width: 85vw;
+}
+
+/* --- REGISTRATION FROM --- */
+.registerDisplay {
+  height: 93vh;
+  display: flex;
+  background-color: #fff7e1;
+  background-image: url("data:image/svg+xml,%3Csvg width='44' height='12' viewBox='0 0 44 12' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 12v-2L0 0v10l4 2h16zm18 0l4-2V0L22 10v2h16zM20 0v8L4 0h16zm18 0L22 8V0h16z' fill='%239C92AC' fill-opacity='0.4' fill-rule='evenodd'/%3E%3C/svg%3E");
+}
+.registerBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.registerBox h1 {
+  margin: 1rem;
+}
+.registerBox input {
+  background-color: white;
+}
+.registerBox button {
+  margin-top: 1rem;
 }

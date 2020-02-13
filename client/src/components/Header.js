@@ -75,21 +75,23 @@ export default function Header(props) {
           </List>
           <Divider />
           <List>
-            {["Log in", "Create Account"].map((text, index) => (
-              <ListItem button key={text}>
+            <ListItem button>
+              <Link to={{ pathname: "/login" }}>
                 <ListItemIcon>
-                  {index % 2 === 0 ? (
-                    <FontAwesomeIcon
-                      className="drawericon"
-                      icon={faSignInAlt}
-                    />
-                  ) : (
-                    <FontAwesomeIcon className="drawericon" icon={faUserPlus} />
-                  )}
+                  <FontAwesomeIcon className="drawericon" icon={faSignInAlt} />
                 </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-            ))}
+
+                <ListItemText primary="Log in" />
+              </Link>
+            </ListItem>
+            <ListItem button>
+              <Link to={{ pathname: "/register" }}>
+                <ListItemIcon>
+                  <FontAwesomeIcon className="drawericon" icon={faUserPlus} />
+                </ListItemIcon>{" "}
+                <ListItemText primary="Create Account" />
+              </Link>
+            </ListItem>
           </List>
         </div>
         <div

@@ -78,7 +78,7 @@ router.get("/activity/:id", (req, res) => {
     .findById({
       _id: req.params.id
     })
-    .then(function(activity) {
+    .then((activity) => {
       res.send(activity);
     })
     .catch((err) => console.log(err));
