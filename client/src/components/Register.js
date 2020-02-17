@@ -1,16 +1,18 @@
 import React, { Component } from "react";
 
-import { connect } from "react-redux";
-import { postUsers, fetchUsers } from "../store/actions/userActions";
+import { Link } from "react-router-dom";
 
+import { connect } from "react-redux";
+import { postUsers } from "../store/actions/userActions";
+import MuiAlert from "@material-ui/lab/Alert";
 import {
   CssBaseline,
   TextField,
-  Link,
   Grid,
   Typography,
   Container,
-  Button
+  Button,
+  Snackbar
   //CircularProgress
 } from "@material-ui/core";
 // function Copyright() {
@@ -26,6 +28,10 @@ import {
 //   );
 // }
 
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 class Register extends Component {
   constructor() {
     super();
@@ -39,7 +45,8 @@ class Register extends Component {
       email: "",
       password: "",
       confirmPassword: "",
-      postError: null,
+      postError: "",
+      setOpen: true,
       touched: {
         fname: false,
         lname: false,
@@ -52,10 +59,6 @@ class Register extends Component {
     };
     this.uploadSingleFile = this.uploadSingleFile.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  componentDidMount() {
-    this.props.dispatch(fetchUsers());
   }
 
   validate(fname, lname, userName, bday, email, password, confirmPassword) {
@@ -110,34 +113,40 @@ class Register extends Component {
 
     this.props.dispatch(postUsers(user));
 
-    this.setState({
-      fname: "",
-      lname: "",
-      userName: "",
-      bday: "",
-      city: "",
-      profileImg: null,
-      email: "",
-      password: "",
-      confirmPassword: "",
-      touched: {
-        fname: false,
-        lname: false,
-        userName: false,
-        bday: false,
-        email: false,
-        password: false,
-        confirmPassword: false
-      }
-    });
+    // this.setState({
+    //   fname: "",
+    //   lname: "",
+    //   userName: "",
+    //   bday: "",
+    //   city: "",
+    //   profileImg: null,
+    //   email: "",
+    //   password: "",
+    //   confirmPassword: "",
+    //   touched: {
+    //     fname: false,
+    //     lname: false,
+    //     userName: false,
+    //     bday: false,
+    //     email: false,
+    //     password: false,
+    //     confirmPassword: false
+    //   }
+    //});
   };
   render() {
-    const { postError, loading, users } = this.props;
+    const { postError, loading } = this.props;
 
-    console.log(users);
+    const handleClose = (event, reason) => {
+      if (reason === "clickaway") {
+        return;
+      }
+      this.setState({ setOpen: false });
+    };
 
     if (postError) {
-      console.log(this.props.postError + "error posting");
+      this.setState({ postError: this.props.postError.response.data.msg });
+      this.setState({ setOpen: true });
     }
 
     if (loading) {
@@ -328,6 +337,11 @@ class Register extends Component {
                     Already have an account? Sign in
                   </Link>
                 </Grid>
+              </Grid>
+              <Grid item xs={12}>
+                <Snackbar autoHideDuration={6000} onClose={handleClose}>
+                  <Alert severity="error">This is an error message!</Alert>
+                </Snackbar>
               </Grid>
             </form>
           </div>

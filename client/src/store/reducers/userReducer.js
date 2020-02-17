@@ -71,6 +71,8 @@ export default function usersReducer(state = initialState, action) {
       };
 
     case POST_USERS_FAILURE:
+      console.log(action.payload.error);
+
       // The request failed. It's done. So set loading to "false".
       // Save the error, so we can display it somewhere.
       // Since it failed, we don't have items to display anymore, so set `items` empty.
