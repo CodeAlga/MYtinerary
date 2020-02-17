@@ -46,6 +46,10 @@ a {
   height: 100%;
 }
 
+.snackbarError {
+  margin-bottom: 3rem;
+}
+
 /* --- LANDIGN PAGE --- */
 .landingBox {
   color: white;

@@ -27,11 +27,10 @@ export default function usersReducer(state = initialState, action) {
     case FETCH_USERS_SUCCESS:
       // All done: set loading "false".
       // Also, replace the items with the ones from the server
-
       return {
         ...state,
         loading: false,
-        users: state.users
+        users: action.payload.users
       };
 
     case FETCH_USERS_FAILURE:
@@ -42,7 +41,6 @@ export default function usersReducer(state = initialState, action) {
       // This is all up to you and your app though:
       // maybe you want to keep the items around!
       // Do whatever seems right for your use case.
-
       return {
         ...state,
         loading: false,
@@ -71,8 +69,6 @@ export default function usersReducer(state = initialState, action) {
       };
 
     case POST_USERS_FAILURE:
-      console.log(action.payload.error);
-
       // The request failed. It's done. So set loading to "false".
       // Save the error, so we can display it somewhere.
       // Since it failed, we don't have items to display anymore, so set `items` empty.

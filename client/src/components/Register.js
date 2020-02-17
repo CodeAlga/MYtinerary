@@ -4,33 +4,16 @@ import { Link } from "react-router-dom";
 
 import { connect } from "react-redux";
 import { postUsers } from "../store/actions/userActions";
-import MuiAlert from "@material-ui/lab/Alert";
+import { withSnackbar } from "notistack";
 import {
   CssBaseline,
   TextField,
   Grid,
   Typography,
   Container,
-  Button,
-  Snackbar
+  Button
   //CircularProgress
 } from "@material-ui/core";
-// function Copyright() {
-//   return (
-//     <Typography variant="body2" color="textSecondary" align="center">
-//       {"Copyright © "}
-//       <Link color="inherit" href="https://material-ui.com/">
-//         Your Website
-//       </Link>{" "}
-//       {new Date().getFullYear()}
-//       {"."}
-//     </Typography>
-//   );
-// }
-
-function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
 
 class Register extends Component {
   constructor() {
@@ -45,8 +28,7 @@ class Register extends Component {
       email: "",
       password: "",
       confirmPassword: "",
-      postError: "",
-      setOpen: true,
+      postError: "Stupids errors",
       touched: {
         fname: false,
         lname: false,
@@ -59,6 +41,17 @@ class Register extends Component {
     };
     this.uploadSingleFile = this.uploadSingleFile.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    // Uso tipico (no olvides de comparar los props):
+    if (prevProps.postError !== this.props.postError) {
+      this.setState({ postError: this.props.postError });
+      // }
+      // if (prevState.postError !== this.state.postError) {
+      this.handleError();
+    }
+    //console.log(this.props, prevProps);
   }
 
   validate(fname, lname, userName, bday, email, password, confirmPassword) {
@@ -88,11 +81,6 @@ class Register extends Component {
   }
 
   handleChange = (e) => {
-    //   date = +~~(
-    //     (Date.now() - +new Date(e.target.value)) /
-    //     31557600000
-    //   );
-
     this.setState({
       [e.target.id]: e.target.value
     });
@@ -112,45 +100,26 @@ class Register extends Component {
     };
 
     this.props.dispatch(postUsers(user));
-
-    // this.setState({
-    //   fname: "",
-    //   lname: "",
-    //   userName: "",
-    //   bday: "",
-    //   city: "",
-    //   profileImg: null,
-    //   email: "",
-    //   password: "",
-    //   confirmPassword: "",
-    //   touched: {
-    //     fname: false,
-    //     lname: false,
-    //     userName: false,
-    //     bday: false,
-    //     email: false,
-    //     password: false,
-    //     confirmPassword: false
-    //   }
-    //});
   };
+
+  handleError = () => {
+    console.log(this.props.postError + "==> " + this.state);
+    this.setState({ postError: this.props.postError });
+    console.log(this.props.postError + "==> " + this.postError);
+    const message = this.props.postError;
+    this.props.enqueueSnackbar(message, {
+      variant: "error",
+      className: "snackbarError"
+    });
+  };
+
   render() {
     const { postError, loading } = this.props;
 
-    const handleClose = (event, reason) => {
-      if (reason === "clickaway") {
-        return;
-      }
-      this.setState({ setOpen: false });
-    };
-
     if (postError) {
-      this.setState({ postError: this.props.postError.response.data.msg });
-      this.setState({ setOpen: true });
     }
 
     if (loading) {
-      console.log(this.props.loading + " loading");
     }
 
     const errors = this.validate(
@@ -163,7 +132,7 @@ class Register extends Component {
       this.state.confirmPassword
     );
 
-    const isEnabled = !Object.keys(errors).some((x) => errors[x]);
+    //const isEnabled = !Object.keys(errors).some((x) => errors[x]);
 
     const shouldMarkError = (field) => {
       const hasError = errors[field];
@@ -175,6 +144,7 @@ class Register extends Component {
     if (this.state.profileImg) {
       imgPreview = <img src={this.state.profileImg} alt="" />;
     }
+
     return (
       <div className="registerDisplay">
         <Container component="main" maxWidth="xs" className="registerBox">
@@ -323,11 +293,12 @@ class Register extends Component {
                 </Grid>
               </Grid>
               <Button
-                disabled={!isEnabled}
+                //disabled={!isEnabled}
                 type="submit"
                 fullWidth
                 variant="contained"
                 color="primary"
+                //onClick={this.handleClick}
               >
                 Sign Up
               </Button>
@@ -338,16 +309,8 @@ class Register extends Component {
                   </Link>
                 </Grid>
               </Grid>
-              <Grid item xs={12}>
-                <Snackbar autoHideDuration={6000} onClose={handleClose}>
-                  <Alert severity="error">This is an error message!</Alert>
-                </Snackbar>
-              </Grid>
             </form>
           </div>
-          {/* <Box mt={5}>
-          <Copyright />
-        </Box> */}
         </Container>
       </div>
     );
@@ -360,4 +323,4 @@ const mapStateToProps = (state) => ({
   postError: state.users.error
 });
 
-export default connect(mapStateToProps)(Register);
+export default connect(mapStateToProps)(withSnackbar(Register));

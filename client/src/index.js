@@ -9,6 +9,7 @@ import { logger } from "redux-logger";
 import { Provider } from "react-redux";
 import thunk from "redux-thunk";
 import rootReducer from "./store/reducers/rootReducer";
+import { SnackbarProvider } from "notistack";
 
 //const loggerMiddleware = createLogger();
 
@@ -26,7 +27,9 @@ const store = createStore(
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <SnackbarProvider maxSnack={1}>
+      <App />
+    </SnackbarProvider>
   </Provider>,
   document.getElementById("root")
 );
