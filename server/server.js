@@ -15,7 +15,11 @@ app.use(
 //app.use(cors());
 
 mongoose
-  .connect(db, { useNewUrlParser: true, useCreateIndex: true })
+  .connect(db, {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true
+  })
   .then(() => console.log("Connected to fanchy smanchy Mongo DB"))
   .catch((err) => console.log(err));
 mongoose.Promise = global.Promise;

@@ -82,9 +82,14 @@ export function postUsers(user) {
       .post("/users", user)
       //.then(handleError)
       .then((res) => {
+        console.log(res.data);
+
         dispatch(postUsersSuccess(res));
       })
-      .catch((err) => dispatch(postUsersFailure(err)));
+      .catch((err) => {
+        console.log(err);
+        dispatch(postUsersFailure(err));
+      });
   };
 }
 
