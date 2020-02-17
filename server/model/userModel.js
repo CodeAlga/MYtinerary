@@ -16,9 +16,9 @@ const userSchema = new mongoose.Schema({
   city: {
     type: String
   },
-  // file: {
-  //   type: File
-  // },
+  file: {
+    type: String
+  },
   userName: {
     type: String,
     required: true,
