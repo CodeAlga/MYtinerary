@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema({
   city: {
     type: String
   },
-  file: {
+  profileImg: {
     type: String
   },
   userName: {

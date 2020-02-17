@@ -52,6 +52,7 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.array() });
     }
+    console.log(req.body.email);
 
     const newUser = new userModel({
       fname: req.body.fname,

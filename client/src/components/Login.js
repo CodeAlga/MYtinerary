@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-//import { login} from "../store/actions/userActions";
+import { fetchUsers } from "../store/actions/userActions";
 
 import {
   CssBaseline,
@@ -22,6 +22,10 @@ class Login extends Component {
     };
   }
 
+  componentDidMount() {
+    this.props.dispatch(fetchUsers());
+  }
+
   handleSubmit = (e) => {
     e.preventDefault();
 
@@ -31,6 +35,22 @@ class Login extends Component {
     });
   };
   render() {
+    console.log(this.props);
+
+    const { error, loading, users } = this.props;
+
+    if (error) {
+      console.log(this.props.error);
+    }
+
+    if (loading) {
+      console.log(this.props.loading);
+    }
+
+    if (users) {
+      console.log(this.props.users);
+    }
+
     return (
       <div className="registerDisplay">
         <Container component="main" maxWidth="xs" className="registerBox">

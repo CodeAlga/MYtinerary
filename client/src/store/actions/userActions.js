@@ -28,21 +28,33 @@ export const fetchUsersFailure = (error) => ({
 export function fetchUsers() {
   return async (dispatch) => {
     dispatch(fetchUsersBegin());
-    await fetch("/all")
+    await fetch("/users/all")
       //.then(handleError)
-      .then((res) => {
-        res.json();
-      })
+      .then((res) => res.json())
       .then((json) => {
         console.log(json);
-
         dispatch(fetchUsersSuccess(json));
+
         return json;
       })
       .catch((error) => dispatch(fetchUsersFailure(error)));
   };
 }
-
+// export function fetchCities() {
+//   return async (dispatch) => {
+//     dispatch(fetchCitiesBegin());
+//     await fetch("/cities/all")
+//       .then(handleErrors)
+//       .then((res) => res.json())
+//       .then((json) => {
+//         setTimeout(() => {
+//           dispatch(fetchCitiesSuccess(json));
+//           return json;
+//         }, 1000);
+//       })
+//       .catch((error) => dispatch(fetchCitiesFailure(error)));
+//   };
+// }
 //
 //------ POST USERS
 //
@@ -80,26 +92,23 @@ export function postUsers(user) {
     dispatch(postUsersBegin());
     axios
       .post("/users", user)
-      //.then(handleError)
+      .then(handleError)
       .then((res) => {
-        console.log(res.data);
-
         dispatch(postUsersSuccess(res));
       })
       .catch((err) => {
-        console.log(err);
-        dispatch(postUsersFailure(err));
+        dispatch(postUsersFailure(err.response.data.msg));
       });
   };
 }
 
 // Handle HTTP errors since fetch won't.
-// function handleError(response) {
-//   if (!response.ok) {
-//     throw Error(
-//       response.status +
-//         "Sorry, there was a propblem creating your account. Please try again."
-//     );
-//   }
-//   return response;
-// }
+function handleError(response) {
+  if (!response.ok) {
+    throw Error(
+      response +
+        "Sorry, there was a propblem creating your account. Please try again."
+    );
+  }
+  return response;
+}
