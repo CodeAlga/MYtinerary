@@ -3,16 +3,47 @@ const router = express.Router();
 const userModel = require("../model/userModel");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
+const multer = require("multer");
+
+//
+// --- HANDLING USER PROFILE IMGS
+//
+const storage = multer.diskStorage({
+  destination: function(req, file, callback) {
+    callback(null, "./uploads/");
+  },
+  filename: function(req, file, callback) {
+    callback(null, new Date().toISOString() + file.originalname);
+  }
+});
+
+const fileFilter = (req, file, callback) => {
+  // reject file
+  if (file.mimetype === "image/jpeg" || "image/png") {
+    callback(null, true);
+  } else {
+    callback(null, false);
+  }
+};
+
+const upload = multer({
+  storage: storage,
+  limits: {
+    fileSize: 1024 * 1024 * 5
+  },
+  fileFilter: fileFilter
+});
 
 //
 // POST USER TO DB
 //
 
-router.post("/", (req, res) => {
+router.post("/", upload.single("profileImg"), (req, res) => {
   const newUser = new userModel({
     fname: req.body.fname,
     lname: req.body.lname,
     userName: req.body.userName,
+    profileImg: req.body.profileImg,
     bday: req.body.bday,
     city: req.body.city,
     profileImg: req.body.profileImg,
@@ -30,16 +61,19 @@ router.post("/", (req, res) => {
           newUser.password = hash;
           userModel
             .create(newUser)
-            .then((user) => res.json({ status: user.email + "registered!" }))
+            .then((user) => res.json({ status: user + " registered!" }))
             .catch((err) => {
               res.send(err);
             });
         });
       } else {
-        res.json({ error: "That email is already registered" });
+        throw new Error("That email is already registered");
       }
     })
-    .catch((err) => res.send(err));
+    .catch((error) => {
+      console.log("this error ===> " + error), res.json(error);
+    });
+  console.log("this is the response ===> " + res);
 });
 
 //

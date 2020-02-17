@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export const FETCH_USERS_BEGIN = "FETCH_USERS_BEGIN";
 export const FETCH_USERS_SUCCESS = "FETCH_USERS_SUCCESS";
 export const FETCH_USERS_FAILURE = "FETCH_USERS_FAILURE";
@@ -23,13 +25,17 @@ export const fetchUsersFailure = (error) => ({
   payload: { error }
 });
 
-export function fetchUsers(user_ref) {
+export function fetchUsers() {
   return async (dispatch) => {
     dispatch(fetchUsersBegin());
-    await fetch("/users/user" + user_ref)
-      .then(handleError)
-      .then((res) => res.json())
+    await fetch("/all")
+      //.then(handleError)
+      .then((res) => {
+        res.json();
+      })
       .then((json) => {
+        console.log(json);
+
         dispatch(fetchUsersSuccess(json));
         return json;
       })
@@ -54,28 +60,41 @@ export const postUsersFailure = (error) => ({
   payload: { error }
 });
 
+// export function postUsers(user) {
+//   return (dispatch) => {
+//     dispatch(postUsersBegin());
+//     user
+//       .post("/" + user)
+//       .then(handleError)
+//       .then((res) => res.json())
+//       .then((json) => {
+//         dispatch(postUsersSuccess(json));
+//         return json;
+//       })
+//       .catch((error) => dispatch(postUsersFailure(error)));
+//   };
+// }
+
 export function postUsers(user) {
   return (dispatch) => {
     dispatch(postUsersBegin());
-    user
-      .post("/" + user)
-      .then(handleError)
-      .then((res) => res.json())
-      .then((json) => {
-        dispatch(postUsersSuccess(json));
-        return json;
+    axios
+      .post("/users", user)
+      //.then(handleError)
+      .then((res) => {
+        dispatch(postUsersSuccess(res));
       })
-      .catch((error) => dispatch(postUsersFailure(error)));
+      .catch((err) => dispatch(postUsersFailure(err)));
   };
 }
 
 // Handle HTTP errors since fetch won't.
-function handleError(response) {
-  if (!response.ok) {
-    throw Error(
-      response.status +
-        "Sorry, there was a propblem creating your account. Please try again."
-    );
-  }
-  return response;
-}
+// function handleError(response) {
+//   if (!response.ok) {
+//     throw Error(
+//       response.status +
+//         "Sorry, there was a propblem creating your account. Please try again."
+//     );
+//   }
+//   return response;
+// }

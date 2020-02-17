@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import { connect } from "react-redux";
-import { postUsers } from "../store/actions/userActions";
+import { postUsers, fetchUsers } from "../store/actions/userActions";
 
 import {
   CssBaseline,
@@ -10,15 +10,9 @@ import {
   Grid,
   Typography,
   Container,
-  Button,
-  CircularProgress
+  Button
+  //CircularProgress
 } from "@material-ui/core";
-
-//import FormControlLabel from "@material-ui/core/FormControlLabel";
-//import Checkbox from "@material-ui/core/Checkbox";
-
-//import Box from "@material-ui/core/Box";
-
 // function Copyright() {
 //   return (
 //     <Typography variant="body2" color="textSecondary" align="center">
@@ -45,6 +39,7 @@ class Register extends Component {
       email: "",
       password: "",
       confirmPassword: "",
+      postError: null,
       touched: {
         fname: false,
         lname: false,
@@ -56,8 +51,11 @@ class Register extends Component {
       }
     };
     this.uploadSingleFile = this.uploadSingleFile.bind(this);
-    //this.upload = this.upload.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.dispatch(fetchUsers());
   }
 
   validate(fname, lname, userName, bday, email, password, confirmPassword) {
@@ -86,12 +84,6 @@ class Register extends Component {
     });
   }
 
-  // upload(e) {
-  //   console.log("not preventing");
-  //   e.preventDefault();
-  //   console.log(this.state.file);
-  // }
-
   handleChange = (e) => {
     //   date = +~~(
     //     (Date.now() - +new Date(e.target.value)) /
@@ -101,7 +93,6 @@ class Register extends Component {
     this.setState({
       [e.target.id]: e.target.value
     });
-    console.log(e.target.id, e.target.value, this.state);
   };
 
   handleSubmit = (e) => {
@@ -112,27 +103,45 @@ class Register extends Component {
       lname: this.state.lname,
       bday: this.state.bday,
       userName: this.state.userName,
+      profileImg: this.state.profileImg,
       email: this.state.email,
       password: this.state.password
     };
 
-    postUsers(user).then((res) => {
-      this.props.history.push("/");
+    this.props.dispatch(postUsers(user));
+
+    this.setState({
+      fname: "",
+      lname: "",
+      userName: "",
+      bday: "",
+      city: "",
+      profileImg: null,
+      email: "",
+      password: "",
+      confirmPassword: "",
+      touched: {
+        fname: false,
+        lname: false,
+        userName: false,
+        bday: false,
+        email: false,
+        password: false,
+        confirmPassword: false
+      }
     });
   };
   render() {
-    const { error, loading } = this.props;
+    const { postError, loading, users } = this.props;
 
-    if (error) {
-      return <div>Error! {error.message}</div>;
+    console.log(users);
+
+    if (postError) {
+      console.log(this.props.postError + "error posting");
     }
 
     if (loading) {
-      return (
-        <div className="spinner">
-          <CircularProgress color="secondary" />
-        </div>
-      );
+      console.log(this.props.loading + " loading");
     }
 
     const errors = this.validate(
@@ -334,7 +343,7 @@ class Register extends Component {
 const mapStateToProps = (state) => ({
   users: state.users.users,
   loading: state.users.loading,
-  error: state.users.error
+  postError: state.users.error
 });
 
 export default connect(mapStateToProps)(Register);
