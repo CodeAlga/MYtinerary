@@ -5,6 +5,7 @@ const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const multer = require("multer");
 const { check, validationResult } = require("express-validator");
+const jwt = require("jsonwebtoken");
 
 //
 // --- HANDLING USER PROFILE IMGS
@@ -46,13 +47,12 @@ router.post(
     check("email").isEmail()
   ],
   upload.single("profileImg"),
-  (req, res) => {
+  (req, res, next) => {
     // Finds the validation errors in this request and wraps them in an object with handy functions
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.array() });
     }
-    console.log(req.body.email);
 
     const newUser = new userModel({
       fname: req.body.fname,
@@ -71,8 +71,6 @@ router.post(
       })
       .then((user) => {
         if (!user) {
-          console.log(user);
-
           bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
             // Store hash in your password DB.
             newUser.password = hash;
@@ -85,12 +83,18 @@ router.post(
           });
         } else {
           throw new Error();
+          // throw new Error(
+          //   res.status(401).send({ msg: "That email is already registered" })
+          // );
         }
       })
       .catch((error) => {
-        console.log(error);
-
-        res.status(401).send({ msg: "That email is already registered" });
+        console.log("error");
+        //res.json(error);
+        //next(error);
+        retun(
+          res.status(401).send({ msg: "That email is already registered" })
+        );
       });
   }
 );
@@ -121,6 +125,57 @@ router.get("/user/:id", (req, res) => {
       res.send(user);
     })
     .catch((err) => console.log(err));
+});
+
+//
+// ----- USER AUTHENTICATION
+//
+
+router.post("/login", (req, res, next) => {
+  userModel
+    .findOne({
+      email: req.body.email
+    })
+    .then((user) => {
+      if (!user) {
+        return res.status(402).json({ msg: "User does not exist" });
+      } else {
+        bcrypt.compare(req.body.password, user.password, (err, result) => {
+          if (result == true) {
+            //console.log("Im logged in");
+            const payload = {
+              id: user.id,
+              username: user.username,
+              profileImg: user.profileImg
+            };
+            const options = { expiresIn: 2592000 };
+            jwt.sign(
+              payload,
+              process.env.DB_JWT_SECRET,
+              options,
+              (err, token) => {
+                if (err) {
+                  res.json({
+                    success: false,
+                    token: "There was an error loggin you in"
+                  });
+                } else {
+                  res.json({
+                    success: true,
+                    token: token
+                  });
+                }
+              }
+            );
+          } else {
+            return res.status(402).json({ msg: "Wrong password!" });
+            //res.send(new Error());
+            //res.status(402).json({ msg: "Wrong password!" });
+            //res.status(402).json({ msg: "Wrong password!" });
+          }
+        });
+      }
+    });
 });
 
 module.exports = router;
