@@ -18,13 +18,37 @@ class Login extends Component {
     super();
     this.state = {
       email: "",
-      password: ""
+      password: "",
+      touched: {
+        email: false,
+        password: false
+      }
     };
   }
 
   componentDidMount() {
     this.props.dispatch(fetchUsers());
   }
+
+  validate(email, password) {
+    // true means invalid, so our conditions got reversed
+    return {
+      email: !email.includes("@"),
+      password: password.length === 0
+    };
+  }
+
+  handleBlur = (field) => () => {
+    this.setState({
+      touched: { ...this.state.touched, [field]: true }
+    });
+  };
+
+  handleChange = (e) => {
+    this.setState({
+      [e.target.id]: e.target.value
+    });
+  };
 
   handleSubmit = (e) => {
     e.preventDefault();
@@ -34,6 +58,7 @@ class Login extends Component {
       password: ""
     });
   };
+
   render() {
     console.log(this.props);
 
@@ -47,9 +72,15 @@ class Login extends Component {
       console.log(this.props.loading);
     }
 
-    if (users) {
-      console.log(this.props.users);
-    }
+    const errors = this.validate(this.state.email, this.state.password);
+
+    //const isEnabled = !Object.keys(errors).some((x) => errors[x]);
+
+    const shouldMarkError = (field) => {
+      const hasError = errors[field];
+      const shouldShow = this.state.touched[field];
+      return hasError ? shouldShow : false;
+    };
 
     return (
       <div className="registerDisplay">
@@ -63,6 +94,8 @@ class Login extends Component {
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <TextField
+                    error={shouldMarkError("email") ? true : false}
+                    onBlur={this.handleBlur("email")}
                     type="email"
                     variant="outlined"
                     required
@@ -76,6 +109,8 @@ class Login extends Component {
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
+                    error={shouldMarkError("password") ? true : false}
+                    onBlur={this.handleBlur("password")}
                     variant="outlined"
                     required
                     fullWidth
