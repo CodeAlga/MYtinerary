@@ -1,40 +1,44 @@
-// import {
-//   POST_LOGIN_BEGGIN,
-//   POST_LOGIN_SUCCESS,
-//   POST_LOGIN_FAILURE
-// } from "../actions/loginActions";
+import {
+  POST_LOGIN_BEGIN,
+  POST_LOGIN_SUCCESS,
+  POST_LOGIN_FAILURE
+} from "../actions/loginActions";
 
-// const initialState = {
-//   token: {},
-//   loading: false,
-//   error: null
-// };
+const initialState = {
+  token: {},
+  loading: false,
+  error: null
+};
 
-// export default function loginReducer(state = initialState, action) {
-//   switch (action.type) {
-//     case POST_LOGIN_BEGIN:
-//       return {
-//         ...state,
-//         loading: true,
-//         error: null
-//       };
+export default function loginReducer(state = initialState, action) {
+  switch (action.type) {
+    case POST_LOGIN_BEGIN:
+      console.log("begining post to login");
 
-//     case POST_LOGIN_SUCCESS:
-//       return {
-//         ...state,
-//         loding: false,
-//         token: action.payload.token
-//       };
+      return {
+        ...state,
+        loading: true,
+        error: null
+      };
 
-//     case POST_LOGIN_FAILURE:
-//       return {
-//         ...state,
-//         loading: false,
-//         error: action.payload.error,
-//         token: {}
-//       };
+    case POST_LOGIN_SUCCESS:
+      console.log("success token " + action);
+      return {
+        ...state,
+        loding: false,
+        token: action.payload.token
+      };
 
-//     default:
-//       return state;
-//   }
-// }
+    case POST_LOGIN_FAILURE:
+      console.log("error token " + action);
+      return {
+        ...state,
+        loading: false,
+        error: action.payload.error,
+        token: {}
+      };
+
+    default:
+      return state;
+  }
+}

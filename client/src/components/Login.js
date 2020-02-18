@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { fetchUsers } from "../store/actions/userActions";
-
+import { postLogin } from "../store/actions/loginActions";
+import { withSnackbar } from "notistack";
 import {
   CssBaseline,
   TextField,
@@ -19,6 +19,7 @@ class Login extends Component {
     this.state = {
       email: "",
       password: "",
+      error: "",
       touched: {
         email: false,
         password: false
@@ -26,8 +27,12 @@ class Login extends Component {
     };
   }
 
-  componentDidMount() {
-    this.props.dispatch(fetchUsers());
+  componentDidUpdate(prevProps, prevState) {
+    // Uso tipico (no olvides de comparar los props):
+    if (prevProps.error !== this.props.error) {
+      this.setState({ error: this.props.error });
+      this.handleError();
+    }
   }
 
   validate(email, password) {
@@ -53,16 +58,27 @@ class Login extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
 
-    this.setState({
-      email: "",
-      password: ""
+    const user = {
+      email: this.state.email,
+      password: this.state.password
+    };
+    this.props.dispatch(postLogin(user));
+  };
+
+  handleError = () => {
+    console.log(this.props.error + "==> " + this.state);
+    this.setState({ error: this.props.error });
+    console.log(this.props.postError + "==> " + this.error);
+    const message = this.props.error;
+    this.props.enqueueSnackbar(message, {
+      variant: "error",
+      className: "snackbarError"
     });
   };
 
   render() {
+    const { error, loading, token } = this.props;
     console.log(this.props);
-
-    const { error, loading, users } = this.props;
 
     if (error) {
       console.log(this.props.error);
@@ -150,9 +166,9 @@ class Login extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  users: state.users.users,
-  loading: state.users.loading,
-  postError: state.users.error
+  token: state.login.token,
+  loading: state.login.loading,
+  error: state.login.error
 });
 
-export default connect(mapStateToProps)(Login);
+export default connect(mapStateToProps)(withSnackbar(Login));
