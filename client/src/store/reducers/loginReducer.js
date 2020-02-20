@@ -13,8 +13,6 @@ const initialState = {
 export default function loginReducer(state = initialState, action) {
   switch (action.type) {
     case POST_LOGIN_BEGIN:
-      console.log("begining post to login");
-
       return {
         ...state,
         loading: true,
@@ -22,7 +20,6 @@ export default function loginReducer(state = initialState, action) {
       };
 
     case POST_LOGIN_SUCCESS:
-      console.log("success token " + action);
       return {
         ...state,
         loding: false,
@@ -30,7 +27,6 @@ export default function loginReducer(state = initialState, action) {
       };
 
     case POST_LOGIN_FAILURE:
-      console.log("error token " + action);
       return {
         ...state,
         loading: false,

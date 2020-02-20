@@ -26,11 +26,9 @@ export function postLogin(user) {
   return (dispatch) => {
     dispatch(postLoginBegin());
     axios
-      .post("/users/login", user)
+      .post("/users-social/login", user)
       //.then(handleError)
       .then((res) => {
-        console.log("logkinf for response " + res);
-
         dispatch(postLoginSuccess(res));
       })
       .catch((err) => {
