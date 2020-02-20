@@ -5,6 +5,7 @@ import Cities from "./views/Cities";
 import RegisterView from "./views/RegisterView";
 import LoginView from "./views/LoginView";
 import CityDetail from "./views/CityDetail";
+//import queryString from "query-string";
 
 class App extends Component {
   constructor(props) {
@@ -13,6 +14,14 @@ class App extends Component {
       listCities: []
     };
   }
+
+  // componentDidMount() {
+  //   var query = queryString.parse(this.props.location.search);
+  //   if (query.token) {
+  //     window.localStorage.setItem("jwt", query.token);
+  //     this.props.history.push("/login/google/authentication");
+  //   }
+  // }
 
   render() {
     const classes = (theme) => ({
