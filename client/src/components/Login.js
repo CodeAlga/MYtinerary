@@ -21,7 +21,6 @@ class Login extends Component {
       email: "",
       password: "",
       error: "",
-      token: "",
       touched: {
         email: false,
         password: false
@@ -34,7 +33,7 @@ class Login extends Component {
 
     if (query.token) {
       window.localStorage.setItem("jwt", query.token);
-      //window.location = "/";
+      // window.location = "/";
       console.log(this.props);
 
       //this.props.history.push("/login/google/autentication");
@@ -49,7 +48,7 @@ class Login extends Component {
     }
 
     if (prevProps.token !== this.props.token) {
-      //this.setState({ token: this.props.data.token });
+      //window.location = "/";
       console.log("diff token");
     }
   }
@@ -99,8 +98,8 @@ class Login extends Component {
     const { error, loading, token } = this.props;
 
     if (token) {
-      const token = this.props.token.data;
-      window.localStorage.setItem("token", token);
+      const token = this.props.token.data.token;
+      window.localStorage.setItem("jwt", token);
     }
 
     if (error) {

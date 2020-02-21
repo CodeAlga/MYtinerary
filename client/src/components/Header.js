@@ -14,22 +14,11 @@ import {
   Slide,
   DialogActions,
   DialogTitle,
-  DialogContent
+  DialogContent,
+  Avatar
 } from "@material-ui/core";
-//import  from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
-// import  from "@material-ui/core/List";
-// import  from "@material-ui/core/Divider";
-// import  from "@material-ui/core/ListItem";
-// import  from "@material-ui/core/ListItemIcon";
-// import  from "@material-ui/core/ListItemText";
 
-// import  from "@material-ui/core/Button";
-// import  from "@material-ui/core/Dialog";
-// import  from "@material-ui/core/DialogActions";
-// import  from "@material-ui/core/DialogContent";
-// import  from "@material-ui/core/DialogTitle";
-// import  from "@material-ui/core/Slide";
+import MenuIcon from "@material-ui/icons/Menu";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -73,6 +62,12 @@ export default function Header(props) {
           onClick={toggleDrawer(side, false)}
           onKeyDown={toggleDrawer(side, false)}
         >
+          <div>
+            <Avatar aria-label="recipe" className="avatar">
+              if (localStorage.getItem("jwt") === null) {} else {}
+            </Avatar>
+          </div>
+          <Divider />
           <List>
             <ListItem button key="1">
               <FontAwesomeIcon className="drawericon" icon={faGlassCheers} />

@@ -32,29 +32,13 @@ export function fetchUsers() {
       //.then(handleError)
       .then((res) => res.json())
       .then((json) => {
-        console.log(json);
         dispatch(fetchUsersSuccess(json));
-
         return json;
       })
       .catch((error) => dispatch(fetchUsersFailure(error)));
   };
 }
-// export function fetchCities() {
-//   return async (dispatch) => {
-//     dispatch(fetchCitiesBegin());
-//     await fetch("/cities/all")
-//       .then(handleErrors)
-//       .then((res) => res.json())
-//       .then((json) => {
-//         setTimeout(() => {
-//           dispatch(fetchCitiesSuccess(json));
-//           return json;
-//         }, 1000);
-//       })
-//       .catch((error) => dispatch(fetchCitiesFailure(error)));
-//   };
-// }
+
 //
 //------ POST USERS
 //
@@ -72,21 +56,6 @@ export const postUsersFailure = (error) => ({
   payload: { error }
 });
 
-// export function postUsers(user) {
-//   return (dispatch) => {
-//     dispatch(postUsersBegin());
-//     user
-//       .post("/" + user)
-//       .then(handleError)
-//       .then((res) => res.json())
-//       .then((json) => {
-//         dispatch(postUsersSuccess(json));
-//         return json;
-//       })
-//       .catch((error) => dispatch(postUsersFailure(error)));
-//   };
-// }
-
 export function postUsers(user) {
   return (dispatch) => {
     dispatch(postUsersBegin());
@@ -97,7 +66,7 @@ export function postUsers(user) {
         dispatch(postUsersSuccess(res));
       })
       .catch((err) => {
-        dispatch(postUsersFailure(err.response.data.msg));
+        dispatch(postUsersFailure(err.response));
       });
   };
 }
