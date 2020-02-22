@@ -4,15 +4,18 @@ import searchReducer from "./searchReducer";
 import itinerariesReducer from "./itinerariesReducer";
 import activitiesReducer from "./activitiesReducer";
 import usersReducer from "./userReducer";
-import loginReducer from "./loginReducer";
+//import loginReducer from "./loginReducer";
 import authReducer from "./authReducer";
+import errorReducer from "./errorReducer";
+
 const rootReducer = combineReducers({
   cities: citiesReducer,
   itineraries: itinerariesReducer,
   activities: activitiesReducer,
   users: usersReducer,
-  login: loginReducer,
+  //login: loginReducer,
   search: searchReducer,
-  auth: authReducer
+  auth: authReducer,
+  error: errorReducer
 });
 export default rootReducer;
