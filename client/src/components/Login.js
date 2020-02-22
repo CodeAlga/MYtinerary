@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { postLogin } from "../store/actions/loginActions";
+import { authUser } from "../store/actions/loginActions";
 import { withSnackbar } from "notistack";
 import {
   CssBaseline,
@@ -80,7 +80,7 @@ class Login extends Component {
       email: this.state.email,
       password: this.state.password
     };
-    this.props.dispatch(postLogin(user));
+    this.props.dispatch(authUser(user));
   };
 
   handleError = () => {
@@ -234,9 +234,9 @@ class Login extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  token: state.login.token,
-  loading: state.login.loading,
-  error: state.login.error
+  token: state.auth.token,
+  loading: state.auth.loading,
+  error: state.auth.error
 });
 
 export default connect(mapStateToProps)(withSnackbar(Login));

@@ -37,7 +37,7 @@ app.use("/cities", require("./routes/cities"));
 app.use("/itineraries", require("./routes/itineraries"));
 app.use("/activities", require("./routes/activities"));
 app.use("/users", require("./routes/users"));
-app.use("/users-social", require("./routes/authentication"));
+app.use("/authentication", require("./routes/authentication"));
 
 app.listen(port, () => {
   console.log("Fanchy smanchy server is runing on port " + port);

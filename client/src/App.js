@@ -6,6 +6,8 @@ import RegisterView from "./views/RegisterView";
 import LoginView from "./views/LoginView";
 import CityDetail from "./views/CityDetail";
 //import queryString from "query-string";
+import { authUser } from "./store/actions/loginActions";
+import { connect } from "react-redux";
 
 class App extends Component {
   constructor(props) {
@@ -15,13 +17,14 @@ class App extends Component {
     };
   }
 
-  // componentDidMount() {
-  //   var query = queryString.parse(this.props.location.search);
-  //   if (query.token) {
-  //     window.localStorage.setItem("jwt", query.token);
-  //     this.props.history.push("/login/google/authentication");
-  //   }
-  // }
+  componentDidMount() {
+    this.props.dispatch(authUser());
+    // var query = queryString.parse(this.props.location.search);
+    // if (query.token) {
+    //   window.localStorage.setItem("jwt", query.token);
+    //   this.props.history.push("/login/google/authentication");
+    // }
+  }
 
   render() {
     const classes = (theme) => ({
@@ -48,4 +51,6 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = (state) => ({});
+
+export default connect(mapStateToProps)(App);

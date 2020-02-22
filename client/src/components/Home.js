@@ -4,18 +4,16 @@ import { Link } from "react-router-dom";
 import Logo from "../images/MYtineraryLogo.png";
 
 import { connect } from "react-redux";
-import { loadUser } from "../store/actions/loginActions";
+import { authUser } from "../store/actions/loginActions";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowCircleRight } from "@fortawesome/free-solid-svg-icons";
 
 class Home extends Component {
   componentDidMount() {
-    this.props.dispatch(loadUser());
+    this.props.dispatch(authUser());
   }
   render() {
-    console.log(this.props);
-
     return (
       <div className="homeBox">
         <img className="logo" src={Logo} alt="Logo" />
@@ -37,10 +35,10 @@ class Home extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  token: state.login.token,
-  isAuthenticated: state.login.isAuthenticated,
-  isLoading: state.login.isLoading,
-  user: state.login.user
+  token: state.auth.token,
+  authenticated: state.auth.isAuthenticated,
+  loading: state.auth.isLoading,
+  user: state.auth.user
 });
 
 export default connect(mapStateToProps)(Home);
