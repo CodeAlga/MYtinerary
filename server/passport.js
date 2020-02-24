@@ -2,7 +2,7 @@
 //const router = express.Router();
 const LocalStrategy = require("passport-jwt").Strategy;
 const ExtractJwt = require("passport-jwt").ExtractJwt;
-const mongoose = require("mongoose");
+//const mongoose = require("mongoose");
 const userModel = require("./model/userModel");
 const passport = require("passport");
 require("dotenv").config();
@@ -65,31 +65,58 @@ passport.use(
         })
         .then((user) => {
           if (!user) {
-            console.log("user not found");
             newUser
               .save()
-              .then((user) => {
+              .then(async (user) => {
                 const payload = { id: user.id };
                 const options = { expiresIn: 2592000 };
-                jwt.sign(
+                await jwt.sign(
                   payload,
                   process.env.DB_JWT_SECRET,
                   options,
-                  async (err, token) => {
+                  (err, token) => {
                     if (err) throw err;
 
-                    await res.json({
+                    res.json({
+                      //
+                      // WHAT WE GET BACK
                       token,
                       user: {
                         id: user.id,
-                        userName: user.userName,
-                        email: user.email
+                        userName: user.auth.social.userName,
+                        email: user.auth.social.email,
+                        profileImg: user.auth.socia.profileImg
                       }
                     });
                   }
                 );
+
+                // .catch((err) => console.log(err));
+                // await jwt.sign(
+                //   payload, // payload we want to add to the token - better the ID then other sensitives informations https://jwt.io/
+                //   process.env.JWT_SECRET, // taking the keys from default.json
+                //   options, // 1 hour
+                //   (err, token) => {
+                //     if (err) throw err;
+                //     res.json({
+                //       // our response that will showed in our state under auth
+                //       token: token,
+                //       user: {
+                //         provider: "google",
+                //         id: user.id,
+                //         userName: user.auth.social.userName,
+                //         email: user.auth.social.email,
+                //         profileImg: user.auth.socia.profileImg
+                //       }
+                //     });
+                //   }
+                // );
+
+                done(null, user);
               })
-              .catch((err) => console.log(err));
+              .catch((err) => {
+                done(err, null);
+              });
 
             //
             // LOGIN USER IF EXISTS
@@ -100,6 +127,7 @@ passport.use(
 
             const options = { expiresIn: 2592000 };
             const token = jwt.sign(payload, process.env.DB_JWT_SECRET, options);
+
             done(null, token);
           }
         })

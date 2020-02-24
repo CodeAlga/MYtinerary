@@ -12,6 +12,7 @@ const auth = require("../middleware/auth");
 
 router.post("/", (req, res) => {
   const { email, password } = req.body;
+  console.log("gone login");
 
   //
   // ----- VALIDATION
@@ -29,45 +30,36 @@ router.post("/", (req, res) => {
 
     //
     // --- VALIDATE PASSWORD
-    bcrypt.compare(
-      req.body.password,
-      user.auth.local.password,
-      (err, result) => {
-        if (result == false) {
+    bcrypt
+      .compare(req.body.password, user.auth.local.password)
+      .then((failed) => {
+        if (!failed) {
           return res.status(400).send({ msg: "Invalid credentals" });
-        } else {
-          //
-          // --- IF ALL CORRECT GENERATE JWT
-
-          const payload = { id: user.id };
-
-          const options = { expiresIn: 2592000 };
-          jwt.sign(
-            payload,
-            process.env.DB_JWT_SECRET,
-            options,
-            async (err, token) => {
-              if (err) throw err;
-
-              await res.json({
-                //
-                // WHAT WE GET BACK
-                token,
-                user: {
-                  id: user.id,
-                  fname: user.auth.local.fname,
-                  lname: user.auth.local.lname,
-                  userName: user.auth.local.userName,
-                  email: user.auth.local.email,
-                  profileImg: user.auth.local.profileImg
-                }
-              });
-              res.send();
-            }
-          );
         }
-      }
-    );
+
+        //
+        // --- IF ALL CORRECT GENERATE JWT
+        const payload = { id: user.id };
+        const options = { expiresIn: 2592000 };
+
+        jwt.sign(payload, process.env.DB_JWT_SECRET, options, (err, token) => {
+          if (err) throw err;
+
+          res.json({
+            //
+            // WHAT WE GET BACK
+            token,
+            user: {
+              id: user.id,
+              fname: user.auth.local.fname,
+              lname: user.auth.local.lname,
+              userName: user.auth.local.userName,
+              email: user.auth.local.email,
+              profileImg: user.auth.local.profileImg
+            }
+          });
+        });
+      });
   });
 });
 
@@ -76,11 +68,13 @@ router.post("/", (req, res) => {
 //
 
 router.get("/user", auth, (req, res) => {
+  console.log(req.user);
+
   userModel
-    .findOne(req.user.id)
+    .findById(req.user)
     .select("-password") // not grab the password
     .then((user) => {
-      console.log(user);
+      //console.log(user);
 
       res.json(user);
     });

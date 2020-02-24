@@ -1,6 +1,7 @@
 const config = require("../passport");
-const jwt = require("jsonwebtoken");
+//const jwt = require("jsonwebtoken");
 const jwtdecode = require("jwt-decode");
+require("dotenv").config();
 
 function auth(req, res, next) {
   const token = req.header("x-auth-token");
@@ -17,12 +18,13 @@ function auth(req, res, next) {
     //
     // --- IF FOUND
 
-    const decoded = jwtdecode(token);
+    const id = jwtdecode(token).id;
+    //const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     //
     // -- ADD USER FROM PAYLOAD
 
-    req.user = { decoded };
+    req.user = id;
 
     next();
   } catch (exception) {

@@ -44,7 +44,9 @@ class Register extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.error !== this.props.error) {
-      if (this.props.error.id === "REGISTER FAAAIL") {
+      console.log(this.props);
+
+      if (this.props.error.id === "REGISTER FAILED") {
         this.handleError();
       }
     }
@@ -102,8 +104,12 @@ class Register extends Component {
   };
 
   handleError = () => {
-    const message = this.props.error.msg;
+    const message = this.props.error.msg.msg;
     this.props.enqueueSnackbar(message, {
+      anchorOrigin: {
+        vertical: "top",
+        horizontal: "left"
+      },
       variant: "error",
       className: "snackbarError"
     });

@@ -58,16 +58,23 @@ export const authUserFailure = (error) => ({
 
 export function authUser() {
   const token = localStorage.getItem("jwt");
-  return async (dispatch, getState) => {
+  return (dispatch) => {
     dispatch(authUserBegin());
-    await tokenConfig(getState);
+    tokenConfig();
+    console.log(tokenConfig());
+
     axios
       .get("/authentication/user", tokenConfig())
       .then((res) => {
+        console.log(res);
+
         dispatch(authUserSuccess(res.data));
       })
       .catch((err) => {
         if (!token) {
+          dispatch(
+            returnErrors(err.response.data, err.response.status, "AUTH FAILED")
+          );
           dispatch(authUserFailure());
         }
       });

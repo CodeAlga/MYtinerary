@@ -46,11 +46,9 @@ class Login extends Component {
       if (this.props.error.id === "LOGIN FAILED") {
         this.handleError();
       }
-      if (this.props.authenticated) {
-        this.setState({ authState: this.props.authenticated });
-      }
     }
-    if (prevState.authState !== this.state.authState) {
+
+    if (prevProps.authenticated !== this.props.authenticated) {
       this.handleSuccess();
     }
   }

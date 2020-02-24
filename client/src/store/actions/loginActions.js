@@ -15,9 +15,9 @@ export const postLoginBegin = () => ({
   type: POST_LOGIN_BEGIN
 });
 
-export const postLoginSuccess = (token) => ({
+export const postLoginSuccess = (user) => ({
   type: POST_LOGIN_SUCCESS,
-  payload: { token }
+  payload: { user }
 });
 
 export const postLoginFailure = (error) => ({
@@ -28,6 +28,9 @@ export const postLoginFailure = (error) => ({
 export function postLogin(user) {
   return (dispatch) => {
     dispatch(postLoginBegin());
+    console.log("here in dispatch");
+    console.log(user);
+
     axios
       .post("/authentication", user)
 
@@ -35,7 +38,8 @@ export function postLogin(user) {
         dispatch(postLoginSuccess(res.data));
       })
       .catch((err) => {
-        dispatch(clearErrors());
+        console.log(err);
+
         dispatch(
           returnErrors(err.response.data, err.response.status, "LOGIN FAILED")
         );

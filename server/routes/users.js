@@ -6,16 +6,14 @@ const saltRounds = 10;
 const multer = require("multer");
 //const { check, validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
-const passport = require("../passport");
-const auth = require("../middleware/auth");
+//const passport = require("../passport");
+//const auth = require("../middleware/auth");
 
 //	//
 //  // --- HANDLING USER PROFILE IMGS
 //	//
 const storage = multer.diskStorage({
   destination: function(req, file, callback) {
-    console.log("on callback");
-
     callback(null, "./uploads/");
   },
   filename: function(req, file, callback) {
@@ -46,8 +44,6 @@ const upload = multer({
 //
 
 router.post("/user", upload.single("profileImg"), (req, res) => {
-  console.log(upload.single("profileImg"));
-
   const {
     fname,
     lname,
@@ -83,7 +79,6 @@ router.post("/user", upload.single("profileImg"), (req, res) => {
       "auth.local.email": req.body.email,
       "auth.local.password": req.body.password
     });
-    console.log(newUser);
 
     bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
       //if (err) throw err;

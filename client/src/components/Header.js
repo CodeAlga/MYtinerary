@@ -1,7 +1,7 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
 import { logout } from "../store/actions/loginActions";
-import { useDispatch /* userSlector */ } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Drawer,
   IconButton,
@@ -39,7 +39,34 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 function Header() {
   const dispatch = useDispatch();
-  //const authenticated = userSlector((state) => state.auth.authenticated);
+  const authenticated = useSelector((state) => state.auth.authenticated);
+  const user = useSelector((state) => state.auth.user);
+
+  const Letter = () => {
+    if (authenticated) {
+      if (user.auth.local) {
+        return (
+          <Fragment>
+            <Avatar className="avatar">
+              {user.auth.local.userName.charAt(0).toUpperCase()}
+            </Avatar>
+            <span>Welcome {user.auth.local.userName}</span>
+          </Fragment>
+        );
+      } else {
+        return (
+          <Fragment>
+            <Avatar className="avatar">
+              {user.auth.social.userName.charAt(0).toUpperCase()}
+            </Avatar>
+            <span>Welcome {user.auth.social.userName}</span>
+          </Fragment>
+        );
+      }
+    } else {
+      return <Avatar />;
+    }
+  };
 
   const [state, setState] = React.useState({
     right: false
@@ -66,10 +93,8 @@ function Header() {
           onClick={toggleDrawer(side, false)}
           onKeyDown={toggleDrawer(side, false)}
         >
-          <div>
-            <Avatar aria-label="recipe" className="avatar">
-              {/* if (localStorage.getItem("jwt") === null) {} else {} */}
-            </Avatar>
+          <div className="letter">
+            <Letter />
           </div>
           <Divider />
           <List>
@@ -170,7 +195,7 @@ function Header() {
                   <p>Create Account</p>
                 </Link>
               </li>
-              <li>
+              <li onClick={handleClose}>
                 <FontAwesomeIcon className="drawericon" icon={faSignOutAlt} />
                 <Link
                   to={{ pathname: "/" }}
