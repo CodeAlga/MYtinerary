@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
+import { logout } from "../store/actions/loginActions";
+import { useDispatch /* userSlector */ } from "react-redux";
 import {
   Drawer,
   IconButton,
@@ -36,7 +37,10 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function Header(props) {
+function Header() {
+  const dispatch = useDispatch();
+  //const authenticated = userSlector((state) => state.auth.authenticated);
+
   const [state, setState] = React.useState({
     right: false
   });
@@ -64,7 +68,7 @@ export default function Header(props) {
         >
           <div>
             <Avatar aria-label="recipe" className="avatar">
-              if (localStorage.getItem("jwt") === null) {} else {}
+              {/* if (localStorage.getItem("jwt") === null) {} else {} */}
             </Avatar>
           </div>
           <Divider />
@@ -114,7 +118,12 @@ export default function Header(props) {
               <ListItemIcon>
                 <FontAwesomeIcon className="drawericon" icon={faSignOutAlt} />
               </ListItemIcon>
-              <ListItemText primary="Log Out" />
+              <ListItemText
+                primary="Log Out"
+                onClick={() => {
+                  dispatch(logout());
+                }}
+              ></ListItemText>
             </ListItem>
           </List>
         </div>
@@ -161,6 +170,17 @@ export default function Header(props) {
                   <p>Create Account</p>
                 </Link>
               </li>
+              <li>
+                <FontAwesomeIcon className="drawericon" icon={faSignOutAlt} />
+                <Link
+                  to={{ pathname: "/" }}
+                  onClick={() => {
+                    dispatch(logout());
+                  }}
+                >
+                  <p>Log out</p>
+                </Link>
+              </li>
             </ul>
           </DialogContent>
           <DialogActions>
@@ -188,3 +208,5 @@ export default function Header(props) {
     </div>
   );
 }
+
+export default Header;

@@ -1,9 +1,10 @@
-const config = require("../server/passport");
+const config = require("../passport");
 const jwt = require("jsonwebtoken");
+const jwtdecode = require("jwt-decode");
 
 function auth(req, res, next) {
   const token = req.header("x-auth-token");
-  console.log("here with " + token);
+  //console.log("here with " + token);
 
   //
   // --- LOOK FOR TOKEN
@@ -16,12 +17,13 @@ function auth(req, res, next) {
     //
     // --- IF FOUND
 
-    const decoded = jwt.verify(token, config.get("jsonwebtoken"));
+    const decoded = jwtdecode(token);
 
     //
     // -- ADD USER FROM PAYLOAD
 
-    req.user = decoded;
+    req.user = { decoded };
+
     next();
   } catch (exception) {
     res.status(400).json({ msg: "Invalid token" });

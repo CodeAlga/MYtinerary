@@ -3,18 +3,61 @@ const router = express.Router();
 const userModel = require("../model/userModel");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
-//const multer = require("multer");
+const multer = require("multer");
 //const { check, validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 const passport = require("../passport");
-const auth = require("../../middleware/auth");
+const auth = require("../middleware/auth");
+
+//	//
+//  // --- HANDLING USER PROFILE IMGS
+//	//
+const storage = multer.diskStorage({
+  destination: function(req, file, callback) {
+    console.log("on callback");
+
+    callback(null, "./uploads/");
+  },
+  filename: function(req, file, callback) {
+    callback(null, new Date().toISOString() + file.originalname);
+  }
+});
+const fileFilter = (req, file, callback) => {
+  // reject file
+  if (file.mimetype === "image/jpeg" || "image/png" || "image/jpeg") {
+    console.log("got the file ok");
+
+    callback(null, true);
+  } else {
+    callback(null, false);
+  }
+};
+
+const upload = multer({
+  storage: storage,
+  limits: {
+    fileSize: 1024 * 1024 * 5
+  },
+  fileFilter: fileFilter
+});
 
 //
 // ---- POST USER TO DB
 //
 
-router.post("/auth/user", auth, (req, res) => {
-  const { fname, lname, bday, city, userName, email, password } = req.body;
+router.post("/user", upload.single("profileImg"), (req, res) => {
+  console.log(upload.single("profileImg"));
+
+  const {
+    fname,
+    lname,
+    bday,
+    city,
+    profileImg,
+    userName,
+    email,
+    password
+  } = req.body;
 
   //
   // ----- VALIDATION
@@ -27,9 +70,9 @@ router.post("/auth/user", auth, (req, res) => {
   // ------ LOOK IF USER EXISTS BY EMAIL
 
   userModel.findOne({ "auth.local.email": req.body.email }).then((user) => {
-    if (user)
+    if (user) {
       return res.status(400).json({ msg: "That email is already registered" });
-
+    }
     const newUser = new userModel({
       "auth.local.fname": req.body.fname,
       "auth.local.lname": req.body.lname,
@@ -40,8 +83,10 @@ router.post("/auth/user", auth, (req, res) => {
       "auth.local.email": req.body.email,
       "auth.local.password": req.body.password
     });
+    console.log(newUser);
+
     bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
-      if (err) throw err;
+      //if (err) throw err;
       newUser.auth.local.password = hash;
       newUser.save().then((user) => {
         const payload = { id: user.id };
@@ -72,17 +117,17 @@ router.post("/auth/user", auth, (req, res) => {
 
 //
 // ----  TEST FOR POSTMAN
-router.get(
-  "/",
-  passport.authenticate("jwt", { session: false }),
-  (req, res) => {
-    userModel
-      .findOne({ _id: req.user.id })
-      .then((user) => {
-        res.json(user);
-      })
-      .catch((err) => res.status(404).json({ error: "User does not exist!" }));
-  }
-);
+// router.get(
+//   "/",
+//   passport.authenticate("jwt", { session: false }),
+//   (req, res) => {
+//     userModel
+//       .findOne({ _id: req.user.id })
+//       .then((user) => {
+//         res.json(user);
+//       })
+//       .catch((err) => res.status(404).json({ error: "User does not exist!" }));
+//   }
+// );
 
 module.exports = router;
