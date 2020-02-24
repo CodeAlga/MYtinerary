@@ -3,7 +3,7 @@ export const CLEAR_ERRORS = "CLEAR_ERRORS";
 
 // RETURN ERRORS
 export const returnErrors = (msg, status, id = null) => {
-  console.log(msg);
+  console.log("checking errors " + msg);
 
   return {
     type: GET_ERRORS,

@@ -4,7 +4,7 @@ const userModel = require("../model/userModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const passport = require("../passport");
-const auth = require("../../middleware/auth");
+const auth = require("../middleware/auth");
 
 //
 // ----- USER AUTHENTICATION
@@ -40,6 +40,7 @@ router.post("/", (req, res) => {
           // --- IF ALL CORRECT GENERATE JWT
 
           const payload = { id: user.id };
+
           const options = { expiresIn: 2592000 };
           jwt.sign(
             payload,
@@ -47,16 +48,21 @@ router.post("/", (req, res) => {
             options,
             async (err, token) => {
               if (err) throw err;
+
               await res.json({
                 //
                 // WHAT WE GET BACK
                 token,
                 user: {
                   id: user.id,
-                  userName: user.userName,
-                  email: user.email
+                  fname: user.auth.local.fname,
+                  lname: user.auth.local.lname,
+                  userName: user.auth.local.userName,
+                  email: user.auth.local.email,
+                  profileImg: user.auth.local.profileImg
                 }
               });
+              res.send();
             }
           );
         }
@@ -71,9 +77,13 @@ router.post("/", (req, res) => {
 
 router.get("/user", auth, (req, res) => {
   userModel
-    .findById(req.user.id)
+    .findOne(req.user.id)
     .select("-password") // not grab the password
-    .then((user) => res.json(user));
+    .then((user) => {
+      console.log(user);
+
+      res.json(user);
+    });
 });
 
 // //
@@ -97,22 +107,20 @@ router.get("/user", auth, (req, res) => {
 // // ------- GOOGLE AUTHENTICATION
 // //
 
-// router.get(
-//   "/login/google",
-//   passport.authenticate("google", { scope: ["profile", "email"] })
-// );
+router.get(
+  "/social",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
 
-// router.get(
-//   "/login/google/authentication",
-//   passport.authenticate("google", { failureRedirect: "/", session: false }),
-//   function(req, res) {
-//     console.log("req.body " + req.user);
-//     //console.log(token);
-//     let token = req.user;
-//     res.redirect(
-//       "http://localhost:3000/login/google/autentication/?token=" + token
-//     );
-//   }
-// );
+router.get(
+  "/social/google-callback",
+  passport.authenticate("google", { failureRedirect: "/", session: false }),
+  function(req, res) {
+    let token = req.user;
+    res.redirect(
+      "http://localhost:3000/login/social/google-callback/?token=" + token
+    );
+  }
+);
 
 module.exports = router;

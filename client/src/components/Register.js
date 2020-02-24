@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 import { connect } from "react-redux";
 import { postUsers } from "../store/actions/userActions";
+import { clearErrors } from "../store/actions/errorActions";
 import { withSnackbar } from "notistack";
 import {
   CssBaseline,
@@ -27,8 +28,6 @@ class Register extends Component {
       profileImg: null,
       email: "",
       password: "",
-      confirmPassword: "",
-      postError: "Stupids errors",
       touched: {
         fname: false,
         lname: false,
@@ -44,27 +43,26 @@ class Register extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    // Uso tipico (no olvides de comparar los props):
-    if (prevProps.postError !== this.props.postError) {
-      this.setState({ postError: this.props.postError });
-      // }
-      // if (prevState.postError !== this.state.postError) {
-      this.handleError();
+    if (prevProps.error !== this.props.error) {
+      if (this.props.error.id === "REGISTER FAAAIL") {
+        this.handleError();
+      }
     }
-    //console.log(this.props, prevProps);
+    if (localStorage.getItem("jwt")) {
+      this.handleSuccess();
+    }
   }
 
-  validate(fname, lname, userName, bday, email, password, confirmPassword) {
+  validate(fname, lname, userName, bday, email, password) {
     // true means invalid, so our conditions got reversed
     return {
       fname: fname.length === 0,
       lname: lname.length === 0,
-      userName: userName.length === 0,
+      userName: this.state.userName.length === 0,
       bday:
         bday >= +~~((Date.now() - +new Date(this.state.bday)) / 31557600000),
       email: !email.includes("@"),
-      password: password.length < 5,
-      confirmPassword: confirmPassword !== this.state.password
+      password: password.length < 5
     };
   }
 
@@ -88,6 +86,7 @@ class Register extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
+    this.props.dispatch(clearErrors());
 
     const user = {
       fname: this.state.fname,
@@ -103,36 +102,38 @@ class Register extends Component {
   };
 
   handleError = () => {
-    console.log(this.props.postError + "==> " + this.state);
-    this.setState({ postError: this.props.postError });
-    console.log(this.props.postError + "==> " + this.postError);
-    const message = this.props.postError;
+    const message = this.props.error.msg;
     this.props.enqueueSnackbar(message, {
       variant: "error",
       className: "snackbarError"
     });
   };
 
+  handleSuccess = () => {
+    const message = "Register Successful";
+    this.props.enqueueSnackbar(message, {
+      anchorOrigin: {
+        vertical: "top",
+        horizontal: "left"
+      },
+      variant: "success",
+      className: "snackbarError"
+    });
+  };
+
   render() {
-    const { postError, loading } = this.props;
-
-    if (postError) {
-    }
-
-    if (loading) {
-    }
+    //const { error } = this.props;
 
     const errors = this.validate(
       this.state.fname,
       this.state.lname,
       this.state.bday,
-      this.state.userName,
+      this.state.uname,
       this.state.email,
-      this.state.password,
-      this.state.confirmPassword
+      this.state.password
     );
 
-    //const isEnabled = !Object.keys(errors).some((x) => errors[x]);
+    const isEnabled = !Object.keys(errors).some((x) => errors[x]);
 
     const shouldMarkError = (field) => {
       const hasError = errors[field];
@@ -231,18 +232,19 @@ class Register extends Component {
                     />
                   </Button>
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12}>
                   <TextField
                     error={shouldMarkError("userName") ? true : false}
                     onBlur={this.handleBlur("userName")}
+                    type="text"
+                    name="userName"
                     variant="outlined"
                     required
+                    fullWidth
+                    value={this.state.uname}
                     id="userName"
                     label="User Name"
-                    name="userName"
-                    helperText="This is what the other users will see"
                     onChange={this.handleChange}
-                    fullWidth
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -260,7 +262,7 @@ class Register extends Component {
                     onChange={this.handleChange}
                   />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12}>
                   <TextField
                     error={shouldMarkError("password") ? true : false}
                     onBlur={this.handleBlur("passwrod")}
@@ -278,27 +280,13 @@ class Register extends Component {
                     onChange={this.handleChange}
                   />
                 </Grid>
-                <Grid item xs={6}>
-                  <TextField
-                    error={shouldMarkError("confirmPassword") ? true : false}
-                    onBlur={this.handleBlur("confirmPasswrod")}
-                    label="Re-type password"
-                    name="confirmPassword"
-                    id="confirmPassword"
-                    type="password"
-                    variant="outlined"
-                    fullWidth
-                    onChange={this.handleChange}
-                  />
-                </Grid>
               </Grid>
               <Button
-                //disabled={!isEnabled}
+                disabled={!isEnabled}
                 type="submit"
                 fullWidth
                 variant="contained"
                 color="primary"
-                //onClick={this.handleClick}
               >
                 Sign Up
               </Button>
@@ -318,9 +306,8 @@ class Register extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  users: state.users.users,
-  loading: state.users.loading,
-  postError: state.users.error
+  authenticated: state.auth.authenticated,
+  error: state.error
 });
 
 export default connect(mapStateToProps)(withSnackbar(Register));

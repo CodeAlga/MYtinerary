@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Logo from "../images/MYtineraryLogo.png";
 
 import { connect } from "react-redux";
-import { authUser } from "../store/actions/loginActions";
+import { authUser } from "../store/actions/userActions";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowCircleRight } from "@fortawesome/free-solid-svg-icons";

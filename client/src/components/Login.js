@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { authUser } from "../store/actions/loginActions";
+import { postLogin } from "../store/actions/loginActions";
+//import { authUser } from "../store/actions/userActions";
 import { withSnackbar } from "notistack";
 import {
   CssBaseline,
@@ -20,7 +21,7 @@ class Login extends Component {
     this.state = {
       email: "",
       password: "",
-      error: "",
+      authState: false,
       touched: {
         email: false,
         password: false
@@ -32,24 +33,25 @@ class Login extends Component {
     var query = queryString.parse(window.location.search);
 
     if (query.token) {
-      window.localStorage.setItem("jwt", query.token);
-      // window.location = "/";
-      console.log(this.props);
+      localStorage.setItem("jwt", query.token);
+    }
 
-      //this.props.history.push("/login/google/autentication");
+    if (localStorage.getItem("jwt")) {
+      this.handleSuccess();
     }
   }
 
   componentDidUpdate(prevProps, prevState) {
-    // Uso tipico (no olvides de comparar los props):
     if (prevProps.error !== this.props.error) {
-      this.setState({ error: this.props.error });
-      this.handleError();
+      if (this.props.error.id === "LOGIN FAILED") {
+        this.handleError();
+      }
+      if (this.props.authenticated) {
+        this.setState({ authState: this.props.authenticated });
+      }
     }
-
-    if (prevProps.token !== this.props.token) {
-      //window.location = "/";
-      console.log("diff token");
+    if (prevState.authState !== this.state.authState) {
+      this.handleSuccess();
     }
   }
 
@@ -80,38 +82,37 @@ class Login extends Component {
       email: this.state.email,
       password: this.state.password
     };
-    this.props.dispatch(authUser(user));
+    this.props.dispatch(postLogin(user));
   };
 
   handleError = () => {
-    console.log(this.props.error + "==> " + this.state);
-    this.setState({ error: this.props.error });
-    console.log(this.props.postError + "==> " + this.error);
-    const message = this.props.error;
+    const message = this.props.error.msg;
     this.props.enqueueSnackbar(message, {
+      anchorOrigin: {
+        vertical: "top",
+        horizontal: "left"
+      },
       variant: "error",
       className: "snackbarError"
     });
   };
 
+  handleSuccess = () => {
+    const message = "Login Successful";
+    this.props.enqueueSnackbar(message, {
+      anchorOrigin: {
+        vertical: "top",
+        horizontal: "left"
+      },
+      variant: "success",
+      className: "snackbarError"
+    });
+  };
+
   render() {
-    const { error, loading, token } = this.props;
-
-    if (token) {
-      const token = this.props.token.data.token;
-      window.localStorage.setItem("jwt", token);
-    }
-
-    if (error) {
-      console.log(this.props.error);
-    }
-
-    if (loading) {
-    }
-
     const errors = this.validate(this.state.email, this.state.password);
 
-    //const isEnabled = !Object.keys(errors).some((x) => errors[x]);
+    const isEnabled = !Object.keys(errors).some((x) => errors[x]);
 
     const shouldMarkError = (field) => {
       const hasError = errors[field];
@@ -164,6 +165,7 @@ class Login extends Component {
                 </Grid>
               </Grid>
               <Button
+                disabled={!isEnabled}
                 type="submit"
                 fullWidth
                 variant="contained"
@@ -181,7 +183,7 @@ class Login extends Component {
               </Grid>
             </form>
             <Grid item xs={12}>
-              <a href="http://localhost:5000/users-social/login/google">
+              <a href="http://localhost:5000/authentication/social">
                 <Button
                   fullWidth
                   variant="contained"
@@ -234,9 +236,8 @@ class Login extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  token: state.auth.token,
-  loading: state.auth.loading,
-  error: state.auth.error
+  authenticated: state.auth.authenticated,
+  error: state.error
 });
 
 export default connect(mapStateToProps)(withSnackbar(Login));

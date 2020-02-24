@@ -1,7 +1,7 @@
 import { GET_ERRORS, CLEAR_ERRORS } from "../actions/errorActions";
 
 const initalState = {
-  msg: {},
+  msg: "",
   status: null,
   id: null
 };
@@ -9,8 +9,6 @@ const initalState = {
 export default function(state = initalState, action) {
   switch (action.type) {
     case GET_ERRORS:
-      console.log(action.payload);
-
       return {
         msg: action.payload.msg,
         status: action.payload.status,
@@ -18,7 +16,7 @@ export default function(state = initalState, action) {
       };
     case CLEAR_ERRORS:
       return {
-        msg: {},
+        msg: "",
         status: null,
         id: null
       };
