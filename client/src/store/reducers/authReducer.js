@@ -15,8 +15,6 @@ import {
 } from "../actions/loginActions";
 
 const initialState = {
-  //token:
-  //  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlNGZlOWUzZGM3ZmI2MTNiNmI5YzIyMyIsImlhdCI6MTU4MjM4NTk4MSwiZXhwIjoxNTg0OTc3OTgxfQ.OR226ofv5eZEk69mnx1g6jEzd2GeL6NAjjPod5BC-YU",
   token: localStorage.getItem("jwt"),
   authenticated: false,
   loading: false,
@@ -33,19 +31,25 @@ export default function(state = initialState, action) {
         loading: true
       };
 
-    case AUTH_USER_SUCCESS:
     case POST_LOGIN_SUCCESS:
     case POST_USERS_SUCCESS:
-      console.log(action.payload.users.token);
-
-      const token = action.payload.users.token;
+      console.log(action.payload);
+      const token = action.payload.user.token;
       localStorage.setItem("jwt", token);
       return {
         ...state,
-        //...action.payload,
         authenticated: true,
         loading: false,
-        user: action.payload.users.user
+        user: action.payload.user || action.payload.token.user
+      };
+
+    case AUTH_USER_SUCCESS:
+      console.log(action.payload);
+      return {
+        ...state,
+        authenticated: true,
+        loading: false,
+        user: action.payload.user
       };
 
     case AUTH_USER_FAILURE:

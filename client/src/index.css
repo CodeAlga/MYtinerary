@@ -46,8 +46,15 @@ a {
   height: 100%;
 }
 
-.snackbarError {
-  margin-bottom: 3rem;
+.letter {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding-bottom: 1rem;
+}
+
+.avatar {
+  background-color: rgba(255, 51, 0, 0.87) !important;
 }
 
 /* --- LANDIGN PAGE --- */
@@ -327,9 +334,7 @@ a {
   min-height: 100vh;
   padding-top: 75px;
 }
-.itineraryBox .avatar {
-  background-color: rgba(255, 51, 0, 0.87);
-}
+
 .itineraryBox .itinerarySubheader {
   display: flex;
   justify-content: space-between;
