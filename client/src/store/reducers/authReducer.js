@@ -33,7 +33,6 @@ export default function(state = initialState, action) {
 
     case POST_LOGIN_SUCCESS:
     case POST_USERS_SUCCESS:
-      console.log(action.payload);
       const token = action.payload.user.token;
       localStorage.setItem("jwt", token);
       return {
@@ -44,7 +43,6 @@ export default function(state = initialState, action) {
       };
 
     case AUTH_USER_SUCCESS:
-      console.log(action.payload);
       return {
         ...state,
         authenticated: true,

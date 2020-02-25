@@ -5,6 +5,7 @@ import Cities from "./views/Cities";
 import RegisterView from "./views/RegisterView";
 import LoginView from "./views/LoginView";
 import CityDetail from "./views/CityDetail";
+import ItineraryDetai from "./views/ItineraryDetail";
 //import queryString from "query-string";
 import { authUser } from "./store/actions/userActions";
 import { connect } from "react-redux";
@@ -19,7 +20,6 @@ class App extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.auth !== this.props.auth) {
-      console.log("dispatch one");
       this.props.dispatch(authUser());
     }
     // var query = queryString.parse(this.props.location.search);
@@ -46,6 +46,7 @@ class App extends Component {
               <Route path="/register" component={RegisterView} />
               <Route path="/login" component={LoginView} />
               <Route path="/itineraries/city/:id/" component={CityDetail} />
+              <Route path="/itinerary/:id/" component={ItineraryDetai} />
             </Switch>
           </div>
         </div>

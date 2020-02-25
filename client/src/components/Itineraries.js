@@ -1,8 +1,12 @@
 import React, { Component } from "react";
 import Activities from "./Activities";
 
+import { Link } from "react-router-dom";
+
 import { connect } from "react-redux";
 import { fetchItineraries } from "../store/actions/itineraryActions";
+import { fetchActivities } from "../store/actions/activityActions";
+import { authUser } from "../store/actions/userActions";
 
 import {
   Card,
@@ -10,16 +14,24 @@ import {
   CardHeader,
   Typography,
   Avatar,
-  CircularProgress
+  CircularProgress,
+  Button,
+  CardActions,
+  IconButton
 } from "@material-ui/core";
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
+import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 
 class Itinerary extends Component {
   componentDidMount() {
+    this.props.dispatch(authUser());
     this.props.dispatch(fetchItineraries(this.props.city_ref));
+    this.props.dispatch(fetchActivities(this.props));
   }
 
   render() {
-    const { error, loading, itineraries } = this.props;
+    const { error, loading, itineraries, authenticated } = this.props;
 
     if (error) {
       return <div>Error! {error.message}</div>;
@@ -32,6 +44,14 @@ class Itinerary extends Component {
         </div>
       );
     }
+
+    const Fav = () => {
+      if (authenticated) {
+        return <FavoriteIcon color="secondary"></FavoriteIcon>;
+      } else {
+        return <FavoriteBorderIcon color="secondary"></FavoriteBorderIcon>;
+      }
+    };
 
     return (
       <div className="itineraryBox">
@@ -65,6 +85,17 @@ class Itinerary extends Component {
 
                 <Activities itinerary_ref={itinerary._id} />
               </CardContent>
+              <CardActions disableSpacing>
+                <IconButton aria-label="add to favorites">
+                  <Fav />
+                </IconButton>
+                <Link to={`/itinerary/${itinerary._id}`} params={itinerary._id}>
+                  <Button size="small" color="primary">
+                    Learn what people say
+                    <MoreHorizIcon />
+                  </Button>
+                </Link>
+              </CardActions>
             </Card>
           );
         })}
@@ -74,6 +105,7 @@ class Itinerary extends Component {
 }
 
 const mapStateToProps = (state) => ({
+  authenticated: state.auth.authenticated,
   itineraries: state.itineraries.itineraries,
   loading: state.itineraries.loading,
   error: state.itineraries.error

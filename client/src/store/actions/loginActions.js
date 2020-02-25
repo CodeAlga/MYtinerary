@@ -38,8 +38,7 @@ export function postLogin(user) {
         dispatch(postLoginSuccess(res.data));
       })
       .catch((err) => {
-        console.log(err);
-
+        dispatch(clearErrors());
         dispatch(
           returnErrors(err.response.data, err.response.status, "LOGIN FAILED")
         );

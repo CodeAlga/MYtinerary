@@ -61,13 +61,10 @@ export function authUser() {
   return (dispatch) => {
     dispatch(authUserBegin());
     tokenConfig();
-    console.log(tokenConfig());
 
     axios
       .get("/authentication/user", tokenConfig())
       .then((res) => {
-        console.log(res);
-
         dispatch(authUserSuccess(res.data));
       })
       .catch((err) => {
