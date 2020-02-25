@@ -4,10 +4,7 @@ const userModel = require("../model/userModel");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const multer = require("multer");
-//const { check, validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
-//const passport = require("../passport");
-//const auth = require("../middleware/auth");
 
 //	//
 //  // --- HANDLING USER PROFILE IMGS
