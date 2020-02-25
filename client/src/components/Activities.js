@@ -2,13 +2,11 @@ import React from "react";
 import { connect } from "react-redux";
 import { fetchActivities } from "../store/actions/activityActions";
 
-import { withStyles, CircularProgress } from "@material-ui/core";
-
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-import TextField from "@material-ui/core/TextField";
+//import TextField from "@material-ui/core/TextField";
 
 import {
   ExpansionPanel,
@@ -17,11 +15,12 @@ import {
   Typography,
   Card,
   CardContent,
-  CardMedia
+  CardMedia,
+  withStyles,
+  CircularProgress,
+  Divider
 } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-//import Chip from "@material-ui/core/Chip";
-import Divider from "@material-ui/core/Divider";
 
 const styles = (theme) => ({
   root: {
@@ -164,14 +163,6 @@ class Activity extends React.Component {
                     ) : null
                   )}
                 </Slider>
-                <Divider />
-                <form noValidate autoComplete="off" className="commentForm">
-                  <TextField
-                    className="outlined-basic"
-                    label="Comment"
-                    variant="outlined"
-                  />
-                </form>
               </Card>
             </div>
           </ExpansionPanelDetails>

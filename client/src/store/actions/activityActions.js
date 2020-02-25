@@ -32,6 +32,10 @@ export function fetchActivities(itinerary_ref) {
   };
 }
 
+export function clearActivities() {
+  return (dispatch) => dispatch(fetchActivitiesFailure());
+}
+
 // Handle HTTP errors since fetch won't.
 function handleErrors(response) {
   if (!response.ok) {
