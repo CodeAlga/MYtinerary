@@ -5,7 +5,10 @@ import { Link } from "react-router-dom";
 
 import { connect } from "react-redux";
 import { fetchItineraries } from "../store/actions/itineraryActions";
-import { fetchActivities } from "../store/actions/activityActions";
+import {
+  clearActivities,
+  fetchActivities
+} from "../store/actions/activityActions";
 import { authUser } from "../store/actions/userActions";
 
 import {
@@ -26,6 +29,7 @@ import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 class Itinerary extends Component {
   componentDidMount() {
     this.props.dispatch(authUser());
+    this.props.dispatch(clearActivities());
     this.props.dispatch(fetchItineraries(this.props.city_ref));
     this.props.dispatch(fetchActivities(this.props));
   }

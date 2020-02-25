@@ -28,12 +28,9 @@ export const postLoginFailure = (error) => ({
 export function postLogin(user) {
   return (dispatch) => {
     dispatch(postLoginBegin());
-    console.log("here in dispatch");
-    console.log(user);
 
     axios
       .post("/authentication", user)
-
       .then((res) => {
         dispatch(postLoginSuccess(res.data));
       })

@@ -4,6 +4,7 @@ import { useEffect } from "react";
 
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import Comments from "../components/Comments";
 
 import {
   Typography,
@@ -39,7 +40,6 @@ function HideOnScrollUp(props) {
 const ItineraryDeatil = (props) => {
   const dispatch = useDispatch();
   const id = props.match.params.id;
-  console.log(id);
 
   const { activities, error, loading } = useSelector((state) => ({
     error: state.activities.error,
@@ -67,7 +67,7 @@ const ItineraryDeatil = (props) => {
   }
 
   return (
-    <div className="cityviewBox">
+    <div className="itineraryDetail">
       <HideOnScrollUp {...props}>
         <AppBar position="fixed">
           <Toolbar>
@@ -77,41 +77,51 @@ const ItineraryDeatil = (props) => {
           </Toolbar>
         </AppBar>
       </HideOnScrollUp>
-      <Card className="sliderRoot">
+      <div className="itineraryDetailBox">
         {activities.map((activity, i) => (
-          <Card className="root" key={i}>
+          <Card className="itineraryDetailRoot" key={i}>
             <CardHeader
               title={activity.name}
               subheader={
-                <div className="itinerarySubheader">
+                <div className="itineraryDetailSubheader">
                   <span>{activity.addres}</span>
                   <span>{activity.hours}hrs</span>
                   <span>{activity.cost}</span>
                 </div>
               }
             />
+            <CardContent>
+              <CardMedia
+                className="media"
+                image={activity.img}
+                src={activity.img}
+              />
+            </CardContent>
             <Divider />
             <CardContent>
               <Typography variant="h5" component="h2">
                 Comments
               </Typography>
               {activity.comments.map((comment, i) => (
-                <Typography className="pos" color="textSecondary" key={i}>
-                  {comment}
+                <div key={i}>
+                  <Typography className="pos" color="textSecondary">
+                    {comment}
+                  </Typography>
                   <Divider />
-                </Typography>
+                </div>
               ))}
+              <Comments />
               <form noValidate autoComplete="off" className="commentForm">
                 <TextField
                   className="outlined-basic"
-                  label="Comment"
+                  label="Add Comment"
                   variant="outlined"
                 />
               </form>
             </CardContent>
           </Card>
         ))}
-      </Card>
+      </div>
 
       <AppBar position="sticky" className="fixedFooter">
         <Footer />
