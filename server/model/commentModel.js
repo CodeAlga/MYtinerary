@@ -11,6 +11,10 @@ const commentSchema = new mongoose.Schema({
   user: {
     type: String
   },
+  user_ref: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User.id"
+  },
   timestamp: {
     type: String
   }

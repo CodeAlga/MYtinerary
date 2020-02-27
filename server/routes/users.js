@@ -42,6 +42,7 @@ const upload = multer({
 
 router.post("/user", upload.single("profileImg"), (req, res) => {
   const {
+    origin,
     fname,
     lname,
     bday,
@@ -67,6 +68,7 @@ router.post("/user", upload.single("profileImg"), (req, res) => {
       return res.status(400).json({ msg: "That email is already registered" });
     }
     const newUser = new userModel({
+      "auth.origin": "local",
       "auth.local.fname": req.body.fname,
       "auth.local.lname": req.body.lname,
       "auth.local.userName": req.body.userName,

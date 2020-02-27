@@ -58,6 +58,7 @@ export const authUserFailure = (error) => ({
 
 export function authUser() {
   const token = localStorage.getItem("jwt");
+
   return (dispatch) => {
     dispatch(authUserBegin());
     tokenConfig();
@@ -103,62 +104,22 @@ export function postUsers(user) {
       .post("/users/user", user)
       //.then(handleError)
       .then((res) => {
-        console.log(res.data);
-
         dispatch(postUsersSuccess(res.data));
       })
       .catch((err) => {
-        dispatch(clearErrors());
-        dispatch(
-          returnErrors(
-            err.response.data,
-            err.response.status,
-            "REGISTER FAILED"
-          )
-        );
-        dispatch(postUsersFailure(err.response));
+        if (err) {
+          console.log(err);
+
+          dispatch(clearErrors());
+          dispatch(
+            returnErrors(
+              err.response.data,
+              err.response.status,
+              "REGISTER FAILED"
+            )
+          );
+          dispatch(postUsersFailure(err.response));
+        }
       });
   };
 }
-
-// //
-// //------ FETCH USERS
-// //
-// export const fetchUsersBegin = () => ({
-//   type: FETCH_USERS_BEGIN
-// });
-
-// export const fetchUsersSuccess = (users) => ({
-//   type: FETCH_USERS_SUCCESS,
-//   payload: { users }
-// });
-
-// export const fetchUsersFailure = (error) => ({
-//   type: FETCH_USERS_FAILURE,
-//   payload: { error }
-// });
-
-// export function fetchUsers() {
-//   return async (dispatch) => {
-//     dispatch(fetchUsersBegin());
-//     await fetch("/users/all")
-//       //.then(handleError)
-//       .then((res) => res.json())
-//       .then((json) => {
-//         dispatch(fetchUsersSuccess(json));
-//         return json;
-//       })
-//       .catch((error) => dispatch(fetchUsersFailure(error)));
-//   };
-// }
-
-// // Handle HTTP errors since fetch won't.
-// function handleError(response) {
-//   if (!response.ok) {
-//     throw Error(
-//       response +
-//         "Sorry, there was a propblem creating your account. Please try again."
-//     );
-//   }
-//   return response;
-// }

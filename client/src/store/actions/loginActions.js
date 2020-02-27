@@ -15,9 +15,9 @@ export const postLoginBegin = () => ({
   type: POST_LOGIN_BEGIN
 });
 
-export const postLoginSuccess = (user) => ({
+export const postLoginSuccess = (users) => ({
   type: POST_LOGIN_SUCCESS,
-  payload: { user }
+  payload: { users }
 });
 
 export const postLoginFailure = (error) => ({

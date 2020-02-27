@@ -61,7 +61,9 @@ const styles = (theme) => ({
 
 class Activity extends React.Component {
   componentDidMount() {
-    this.props.dispatch(fetchActivities(this.props.itinerary_ref));
+    const { itinerary_ref } = this.props;
+
+    this.props.dispatch(fetchActivities(itinerary_ref));
   }
 
   render() {

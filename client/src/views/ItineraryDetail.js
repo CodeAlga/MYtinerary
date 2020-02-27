@@ -17,8 +17,7 @@ import {
   AppBar,
   Toolbar,
   Slide,
-  CircularProgress,
-  TextField
+  CircularProgress
 } from "@material-ui/core";
 
 import {
@@ -111,13 +110,6 @@ const ItineraryDeatil = (props) => {
                 </div>
               ))}
               <Comments params={activity._id} />
-              <form noValidate autoComplete="off" className="commentForm">
-                <TextField
-                  className="outlined-basic"
-                  label="Add Comment"
-                  variant="outlined"
-                />
-              </form>
             </CardContent>
           </Card>
         ))}
