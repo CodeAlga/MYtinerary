@@ -1,5 +1,5 @@
 import axios from "axios";
-import { returnErrors, clearErrors } from "./errorActions";
+import { returnErrors } from "./errorActions";
 
 export const FETCH_COMMENTS_BEGIN = "FETCH_COMMENTS_BEGIN";
 export const FETCH_COMMENTS_SUCCESS = "FETCH_COMMENTS_SUCCESS";
@@ -48,6 +48,10 @@ export function fetchComments(activity_ref) {
         dispatch(fetchCommentsFailure());
       });
   };
+}
+
+export function clearComments() {
+  return (dispatch) => dispatch(fetchCommentsFailure());
 }
 
 // //

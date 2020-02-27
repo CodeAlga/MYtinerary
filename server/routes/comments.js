@@ -11,11 +11,19 @@ router.post("/activity/:id", (req, res) => {
   //   if (!auth)
   //     return res.status(401).json({ msg: "You need to be logged in to comment" });
 
+  var today = new Date();
+  console.log(today);
+
+  var mm = String(today.getMonth() + 1).padStart(2, "0");
+  var yyyy = today.getFullYear();
+  today = yyyy + "/" + mm;
+  console.log(today);
+
   const newComment = new commentModel({
     activity_ref: req.body.activity_ref,
     comment: req.body.comment,
     user: req.body.user,
-    timestamp: req.body.timestamp
+    timestamp: today
   });
   newComment
     .save()
@@ -32,9 +40,13 @@ router.post("/activity/:id", (req, res) => {
 //
 
 router.get("/activity/:id", (req, res) => {
+  console.log(req.params.id);
+
   commentModel
     .find({ activity_ref: req.params.id })
     .then((comments) => {
+      console.log(comments);
+
       res.send(comments);
     })
     .catch((err) => {
