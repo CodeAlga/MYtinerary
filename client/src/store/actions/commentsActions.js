@@ -1,5 +1,6 @@
 import axios from "axios";
 import { returnErrors } from "./errorActions";
+import { tokenConfig } from "./userActions";
 
 export const FETCH_COMMENTS_BEGIN = "FETCH_COMMENTS_BEGIN";
 export const FETCH_COMMENTS_SUCCESS = "FETCH_COMMENTS_SUCCESS";
@@ -76,19 +77,29 @@ export function postComment(comment) {
   return (dispatch) => {
     dispatch(postCommentsBegin());
     axios
-      .post("/comments/activity/:id", comment)
+      .post(
+        "/comments/activity/" + comment.activity_ref,
+
+        comment,
+        {
+          headers: tokenConfig().headers
+        }
+      )
       .then((res) => {
         dispatch(postCommentsSuccess(res.data));
       })
       .catch((err) => {
-        dispatch(
-          returnErrors(
-            err.response.data,
-            err.response.status,
-            "POST COMMENTS FAILURE"
-          )
-        );
-        dispatch(postCommentsFailure());
+        if (err) {
+          console.log(err.response.data);
+          dispatch(
+            returnErrors(
+              err.response.data,
+              err.response.status,
+              "POST COMMENTS FAILURE"
+            )
+          );
+          dispatch(postCommentsFailure());
+        }
       });
   };
 }
@@ -101,9 +112,8 @@ export const deleteCommentsBegin = () => ({
   type: DELETE_COMMENTS_BEGIN
 });
 
-export const deleteCommentsSuccess = (comment) => ({
-  type: DELETE_COMMENTS_SUCCESS,
-  payload: { comment }
+export const deleteCommentsSuccess = () => ({
+  type: DELETE_COMMENTS_SUCCESS
 });
 
 export const deleteCommentsFailure = (error) => ({
@@ -111,11 +121,13 @@ export const deleteCommentsFailure = (error) => ({
   payload: { error }
 });
 
-export function deleteComment(comment) {
+export function deleteComment(id) {
   return (dispatch) => {
     dispatch(deleteCommentsBegin());
     axios
-      .post("/comments/activity/:id", comment)
+      .delete("/comments/" + id, {
+        headers: tokenConfig().headers
+      })
       .then((res) => {
         dispatch(deleteCommentsSuccess(res.data));
       })

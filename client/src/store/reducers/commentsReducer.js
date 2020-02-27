@@ -29,11 +29,15 @@ export default function commentsReducer(state = initialState, action) {
 
     case POST_COMMENTS_SUCCESS:
     case FETCH_COMMENTS_SUCCESS:
-    case DELETE_COMMENTS_SUCCESS:
       return {
         ...state,
         loading: false,
         comments: state.comments.concat(action.payload.comment)
+      };
+    case DELETE_COMMENTS_SUCCESS:
+      return {
+        ...state,
+        loading: false
       };
 
     case POST_COMMENTS_FAILURE:

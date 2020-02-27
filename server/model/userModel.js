@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
   auth: {
+    origin: { type: String },
     local: {
       fname: {
         type: String

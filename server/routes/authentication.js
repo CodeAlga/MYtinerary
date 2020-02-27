@@ -12,7 +12,6 @@ const auth = require("../middleware/auth");
 
 router.post("/", (req, res) => {
   const { email, password } = req.body;
-  console.log("gone login");
 
   //
   // ----- VALIDATION
@@ -68,8 +67,6 @@ router.post("/", (req, res) => {
 //
 
 router.get("/user", auth, (req, res) => {
-  console.log(req.user);
-
   userModel
     .findById(req.user)
     .select("-password") // not grab the password

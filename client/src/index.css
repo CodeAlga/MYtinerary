@@ -451,12 +451,23 @@ a {
 
 .itineraryDetail .commentForm {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   margin: 0.5rem;
 }
 
 .itineraryDetail .commentForm div {
   width: 100%;
+}
+
+/* ---- COMMENTS DETAIL ---- */
+
+.commentBox > div {
+  display: flex;
+}
+
+.commentBox > div > button {
+  align-self: baseline;
 }
 
 /* --- REGISTRATION FROM --- */

@@ -47,6 +47,7 @@ passport.use(
     function(accessToken, refreshToken, profile, done, req, res) {
       //const token = accessToken;
       const newUser = new userModel({
+        "auth.origin": "social",
         "auth.social.id": profile.id,
         "auth.social.email": profile.emails[0].value,
         "auth.social.fname": profile.name.givenName,
