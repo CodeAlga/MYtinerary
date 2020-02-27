@@ -33,7 +33,7 @@ export default function commentsReducer(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        comments: action.payload.comment
+        comments: state.comments.concat(action.payload.comment)
       };
 
     case POST_COMMENTS_FAILURE:

@@ -36,6 +36,7 @@ class Itinerary extends Component {
 
   render() {
     const { error, loading, itineraries, authenticated } = this.props;
+    console.log(itineraries);
 
     if (error) {
       return <div>Error! {error.message}</div>;

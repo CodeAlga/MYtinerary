@@ -110,7 +110,7 @@ const ItineraryDeatil = (props) => {
                   <Divider />
                 </div>
               ))}
-              <Comments />
+              <Comments params={activity._id} />
               <form noValidate autoComplete="off" className="commentForm">
                 <TextField
                   className="outlined-basic"

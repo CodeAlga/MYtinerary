@@ -1,31 +1,35 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { fetchComments } from "../store/actions/commentsActions";
+import {
+  fetchComments,
+  fetchCommentsFailure
+} from "../store/actions/commentsActions";
 
 import { Typography, Divider } from "@material-ui/core";
 
 class Comments extends Component {
   componentDidMount() {
-    this.props.dispatch(fetchComments("5e3eca9ba51e724b5ce533bf"));
+    this.props.dispatch(fetchCommentsFailure());
+    this.props.dispatch(fetchComments(this.props.params));
   }
   render() {
     const { comments } = this.props;
-    console.log(comments);
 
     return (
       <div>
-        <Typography className="pos" color="textSecondary">
-          Comment
-        </Typography>
-        <Typography className="pos" color="textSecondary">
-          Comment
-        </Typography>
-        <Typography className="pos" color="textSecondary">
-          Comment
-        </Typography>
-        <Typography className="pos" color="textSecondary">
-          Comment
-        </Typography>
+        {comments.map((comment, i) =>
+          comment.activity_ref === this.props.params ? (
+            <div key={i}>
+              <Typography variant="caption" display="block" gutterBottom>
+                <span>{comment.user}</span>
+                <span>{comment.timestamp}</span>
+              </Typography>
+              <Typography className="pos" color="textSecondary">
+                {comment.comment}
+              </Typography>
+            </div>
+          ) : null
+        )}
         <Divider />
       </div>
     );
