@@ -17,8 +17,6 @@ export const fetchActivitiesFailure = (error) => ({
 });
 
 export function fetchActivities(itinerary_ref) {
-  console.log(itinerary_ref);
-
   return async (dispatch) => {
     dispatch(fetchActivitiesBegin());
     await fetch("/activities/itinerary/" + itinerary_ref)
