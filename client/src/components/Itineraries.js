@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import { fetchItineraries } from "../store/actions/itineraryActions";
 import { clearActivities } from "../store/actions/activityActions";
 import { authUser } from "../store/actions/userActions";
+import { addFav, removeFav } from "../store/actions/favouriteActions";
 
 import {
   Card,
@@ -25,16 +26,19 @@ import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 
 class Itinerary extends Component {
   componentDidMount() {
-    console.log(this.props);
-
     this.props.dispatch(authUser());
     this.props.dispatch(clearActivities());
     this.props.dispatch(fetchItineraries(this.props.city_ref));
     //this.props.dispatch(fetchActivities(this.props));
   }
 
+  addFav = (itinerary_ref) => {
+    console.log(itinerary_ref);
+    this.props.dispatch(addFav(itinerary_ref));
+  };
+
   render() {
-    const { error, loading, itineraries, authenticated } = this.props;
+    const { error, loading, itineraries, authenticated, user } = this.props;
 
     if (error) {
       return <div>Error! {error.message}</div>;
@@ -47,14 +51,6 @@ class Itinerary extends Component {
         </div>
       );
     }
-
-    const Fav = () => {
-      if (authenticated) {
-        return <FavoriteIcon color="secondary"></FavoriteIcon>;
-      } else {
-        return <FavoriteBorderIcon color="secondary"></FavoriteBorderIcon>;
-      }
-    };
 
     return (
       <div className="itineraryBox">
@@ -89,9 +85,25 @@ class Itinerary extends Component {
                 <Activities itinerary_ref={itinerary._id} />
               </CardContent>
               <CardActions disableSpacing>
-                <IconButton aria-label="add to favorites">
-                  <Fav />
-                </IconButton>
+                {authenticated ? (
+                  user.auth.favourites.includes(itinerary._id) ? (
+                    <IconButton aria-label="add to favorites">
+                      <FavoriteIcon color="secondary" key={i} />
+                    </IconButton>
+                  ) : (
+                    <IconButton
+                      aria-label="add to favorites"
+                      onClick={() => this.addFav(itinerary._id)}
+                    >
+                      <FavoriteBorderIcon color="secondary" key={i} />
+                    </IconButton>
+                  )
+                ) : (
+                  <IconButton aria-label="add to favorites">
+                    <FavoriteBorderIcon color="secondary" />
+                  </IconButton>
+                )}
+
                 <Link to={`/itinerary/${itinerary._id}`} params={itinerary._id}>
                   <Button size="small" color="primary">
                     Learn what people say
@@ -109,6 +121,7 @@ class Itinerary extends Component {
 
 const mapStateToProps = (state) => ({
   authenticated: state.auth.authenticated,
+  user: state.auth.user,
   itineraries: state.itineraries.itineraries,
   loading: state.itineraries.loading,
   error: state.itineraries.error

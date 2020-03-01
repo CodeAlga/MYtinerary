@@ -6,6 +6,7 @@ import activitiesReducer from "./activitiesReducer";
 import authReducer from "./authReducer";
 import errorReducer from "./errorReducer";
 import commentsReducer from "./commentsReducer";
+import favouriteReducer from "./favouriteReducer";
 
 const rootReducer = combineReducers({
   cities: citiesReducer,
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
   search: searchReducer,
   auth: authReducer,
   error: errorReducer,
-  comments: commentsReducer
+  comments: commentsReducer,
+  favourites: favouriteReducer
 });
 export default rootReducer;

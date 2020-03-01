@@ -5,6 +5,7 @@ const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const multer = require("multer");
 const jwt = require("jsonwebtoken");
+const auth = require("../middleware/auth");
 
 //	//
 //  // --- HANDLING USER PROFILE IMGS
@@ -107,6 +108,40 @@ router.post("/user", upload.single("profileImg"), (req, res) => {
       });
     });
   });
+});
+
+// //
+// // ----------- DEALING WITH FAVOURITES
+// //
+
+router.put("/user/:id", (req, res) => {
+  userModel
+    .findByIdAndUpdate(
+      { _id: req.params.id },
+      { $push: { "auth.favourites": req.body.favourites } }
+    )
+    .then((user) => {
+      res.json(user);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).send("Could not save that favourite");
+    });
+});
+
+router.delete("/user/:id", (req, res) => {
+  userModel
+    .findByIdAndUpdate(
+      { _id: req.params.id },
+      { $pull: { "auth.favourites": req.body.favourites } }
+    )
+    .then((user) => {
+      res.json(user);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).send("Could not save that favourite");
+    });
 });
 
 //

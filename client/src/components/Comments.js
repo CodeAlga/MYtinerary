@@ -39,8 +39,10 @@ class Comments extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.authenticated !== this.props.authenticated) {
-      this.setState({ user_ref: this.props.user._id });
+    if (this.props.user !== null) {
+      if (this.state.user_ref === "") {
+        this.setState({ user_ref: this.props.user._id });
+      }
     }
   }
 

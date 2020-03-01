@@ -8,8 +8,6 @@ const auth = require("../middleware/auth");
 // //
 
 router.post("/activity/:id", auth, (req, res) => {
-  console.log("dispatching");
-
   var today = new Date();
 
   var mm = String(today.getMonth() + 1).padStart(2, "0");
