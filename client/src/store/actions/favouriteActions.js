@@ -34,12 +34,9 @@ export function addFav(fav) {
     dispatch(putFavBegin());
 
     axios
-      .put(
-        "/users/addfav/" + user_id,
-        fav /* , {
+      .put("/users/addfav/" + user_id, fav, {
         headers: tokenConfig().headers
-      } */
-      )
+      })
       .then((res) => {
         dispatch(putFavSuccess(fav));
       })
@@ -79,7 +76,9 @@ export function removeFav(fav) {
     dispatch(removeFavBegin());
 
     axios
-      .put("/users/removefav/" + user_id, fav)
+      .put("/users/removefav/" + user_id, fav, {
+        headers: tokenConfig().headers
+      })
       .then((res) => {
         dispatch(removeFavSuccess(fav));
       })

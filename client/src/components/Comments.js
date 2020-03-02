@@ -86,8 +86,8 @@ class Comments extends Component {
       this.handleError();
     } else {
       this.props.dispatch(deleteComment(id));
-      this.props.dispatch(fetchCommentsFailure());
-      this.props.dispatch(fetchComments(this.props.params));
+      //this.props.dispatch(fetchCommentsFailure());
+      //this.props.dispatch(fetchComments(this.props.params));
     }
   };
 
