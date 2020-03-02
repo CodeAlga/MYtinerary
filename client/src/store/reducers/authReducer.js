@@ -51,8 +51,7 @@ export default function(state = initialState, action) {
         ...state,
         authenticated: true,
         loading: false,
-        user: action.payload.users,
-        favourites: action.payload.user.auth.favourites
+        user: action.payload.users
       };
 
     case AUTH_USER_SUCCESS:

@@ -114,7 +114,7 @@ router.post("/user", upload.single("profileImg"), (req, res) => {
 // // ----------- DEALING WITH FAVOURITES
 // //
 
-router.put("/addfav/:id", (req, res) => {
+router.put("/addfav/:id", auth, (req, res) => {
   userModel
     .findByIdAndUpdate(
       { _id: req.params.id },
@@ -129,7 +129,7 @@ router.put("/addfav/:id", (req, res) => {
     });
 });
 
-router.put("/removefav/:id", (req, res) => {
+router.put("/removefav/:id", auth, (req, res) => {
   userModel
     .findByIdAndUpdate(
       { _id: req.params.id },

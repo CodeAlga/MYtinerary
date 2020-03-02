@@ -86,8 +86,6 @@ export function postComment(comment) {
         }
       )
       .then((res) => {
-        console.log(res.data);
-
         dispatch(postCommentsSuccess(res.data));
       })
       .catch((err) => {
@@ -114,8 +112,9 @@ export const deleteCommentsBegin = () => ({
   type: DELETE_COMMENTS_BEGIN
 });
 
-export const deleteCommentsSuccess = () => ({
-  type: DELETE_COMMENTS_SUCCESS
+export const deleteCommentsSuccess = (comment) => ({
+  type: DELETE_COMMENTS_SUCCESS,
+  payload: { comment }
 });
 
 export const deleteCommentsFailure = (error) => ({
@@ -132,7 +131,6 @@ export function deleteComment(id) {
       })
       .then((res) => {
         console.log(res.data);
-
         dispatch(deleteCommentsSuccess(res.data));
       })
       .catch((err) => {

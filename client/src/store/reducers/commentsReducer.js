@@ -36,10 +36,13 @@ export default function commentsReducer(state = initialState, action) {
       };
 
     case DELETE_COMMENTS_SUCCESS:
+      console.log(action.payload.comment._id);
+      console.log(state.comments);
+
       return {
         ...state,
         comments: state.comments.filter(
-          (comment) => comment.id !== action.payload.comments._id
+          (comment) => comment._id !== action.payload.comment._id
         ),
         loading: false
       };
