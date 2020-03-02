@@ -86,6 +86,8 @@ export function postComment(comment) {
         }
       )
       .then((res) => {
+        console.log(res.data);
+
         dispatch(postCommentsSuccess(res.data));
       })
       .catch((err) => {
@@ -129,17 +131,23 @@ export function deleteComment(id) {
         headers: tokenConfig().headers
       })
       .then((res) => {
+        console.log(res.data);
+
         dispatch(deleteCommentsSuccess(res.data));
       })
       .catch((err) => {
-        dispatch(
-          returnErrors(
-            err.response.data,
-            err.response.status,
-            "DELETE COMMENTS FAILURE"
-          )
-        );
-        dispatch(deleteCommentsFailure());
+        if (err) {
+          console.log(err);
+
+          dispatch(
+            returnErrors(
+              err.response.data,
+              err.response.status,
+              "DELETE COMMENTS FAILURE"
+            )
+          );
+          dispatch(deleteCommentsFailure());
+        }
       });
   };
 }

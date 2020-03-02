@@ -24,21 +24,68 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 
+import { withSnackbar } from "notistack";
+
 class Itinerary extends Component {
   componentDidMount() {
     this.props.dispatch(authUser());
     this.props.dispatch(clearActivities());
     this.props.dispatch(fetchItineraries(this.props.city_ref));
-    //this.props.dispatch(fetchActivities(this.props));
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.user !== null && prevProps.user !== null) {
+      if (
+        prevProps.user.auth.favourites.length !==
+        this.props.user.auth.favourites.length
+      ) {
+        this.setState({ fav: this.props.user.auth.favourites });
+      }
+    }
   }
 
   addFav = (itinerary_ref) => {
-    console.log(itinerary_ref);
-    this.props.dispatch(addFav(itinerary_ref));
+    if (this.props.authenticated) {
+      const newFav = {
+        fav: itinerary_ref
+      };
+      //this.setState({ fav: [itinerary_ref, ...this.state.fav] });
+      this.props.dispatch(addFav(newFav));
+    } else {
+      this.handleError();
+    }
+  };
+  removeFav = (itinerary_ref) => {
+    if (this.props.authenticated) {
+      const newFav = {
+        fav: itinerary_ref
+      };
+      this.props.dispatch(removeFav(newFav));
+    } else {
+      this.handleError();
+    }
+  };
+
+  handleError = () => {
+    const message = "You need to be registered to do that";
+    this.props.enqueueSnackbar(message, {
+      anchorOrigin: {
+        vertical: "top",
+        horizontal: "left"
+      },
+      variant: "error",
+      className: "snackbarError"
+    });
   };
 
   render() {
-    const { error, loading, itineraries, authenticated, user } = this.props;
+    const {
+      error,
+      loading,
+      itineraries,
+      authenticated,
+      favourites
+    } = this.props;
 
     if (error) {
       return <div>Error! {error.message}</div>;
@@ -86,8 +133,11 @@ class Itinerary extends Component {
               </CardContent>
               <CardActions disableSpacing>
                 {authenticated ? (
-                  user.auth.favourites.includes(itinerary._id) ? (
-                    <IconButton aria-label="add to favorites">
+                  favourites.includes(itinerary._id) ? (
+                    <IconButton
+                      aria-label="add to favorites"
+                      onClick={() => this.removeFav(itinerary._id)}
+                    >
                       <FavoriteIcon color="secondary" key={i} />
                     </IconButton>
                   ) : (
@@ -99,7 +149,10 @@ class Itinerary extends Component {
                     </IconButton>
                   )
                 ) : (
-                  <IconButton aria-label="add to favorites">
+                  <IconButton
+                    aria-label="add to favorites"
+                    onClick={() => this.removeFav(itinerary._id)}
+                  >
                     <FavoriteBorderIcon color="secondary" />
                   </IconButton>
                 )}
@@ -122,9 +175,10 @@ class Itinerary extends Component {
 const mapStateToProps = (state) => ({
   authenticated: state.auth.authenticated,
   user: state.auth.user,
+  favourites: state.auth.favourites,
   itineraries: state.itineraries.itineraries,
   loading: state.itineraries.loading,
   error: state.itineraries.error
 });
 
-export default connect(mapStateToProps)(Itinerary);
+export default connect(mapStateToProps)(withSnackbar(Itinerary));
