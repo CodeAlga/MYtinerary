@@ -14,11 +14,21 @@ import {
   LOGOUT
 } from "../actions/loginActions";
 
+import {
+  PUT_FAV_BEGIN,
+  PUT_FAV_SUCCESS,
+  PUT_FAV_FAILURE,
+  REMOVE_FAV_BEGIN,
+  REMOVE_FAV_SUCCESS,
+  REMOVE_FAV_FAILURE
+} from "../actions/favouriteActions";
+
 const initialState = {
   token: localStorage.getItem("jwt"),
   authenticated: false,
   loading: false,
-  user: null
+  user: null,
+  favourites: []
 };
 
 export default function(state = initialState, action) {
@@ -26,6 +36,8 @@ export default function(state = initialState, action) {
     case AUTH_USER_BEGIN:
     case POST_LOGIN_BEGIN:
     case POST_USERS_BEGIN:
+    case PUT_FAV_BEGIN:
+    case REMOVE_FAV_BEGIN:
       return {
         ...state,
         loading: true
@@ -39,7 +51,8 @@ export default function(state = initialState, action) {
         ...state,
         authenticated: true,
         loading: false,
-        user: action.payload.users
+        user: action.payload.users,
+        favourites: action.payload.user.auth.favourites
       };
 
     case AUTH_USER_SUCCESS:
@@ -47,7 +60,34 @@ export default function(state = initialState, action) {
         ...state,
         authenticated: true,
         loading: false,
-        user: action.payload.user
+        user: action.payload.user,
+        favourites: action.payload.user.auth.favourites
+      };
+
+    case PUT_FAV_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        //...state.user.auth.favourites.push(action.payload.user.fav)
+        favourites: [action.payload.user.fav, ...state.favourites]
+      };
+
+    case REMOVE_FAV_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        //...state.user.auth.favourites.push(action.payload.user.fav)
+        favourites: state.favourites.filter(
+          (fav) => fav !== action.payload.user.fav
+        )
+      };
+
+    case PUT_FAV_FAILURE:
+    case REMOVE_FAV_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: null
       };
 
     case AUTH_USER_FAILURE:

@@ -58,8 +58,6 @@ class Comments extends Component {
       } else if (this.props.user.auth.origin === "social") {
         this.setState({ user: this.props.user.auth.social.userName });
       }
-      console.log(this.props.user);
-      console.log(this.state.user_ref);
     } else {
       this.setState({ user: "" });
       this.setState({ user_ref: "" });

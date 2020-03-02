@@ -114,11 +114,11 @@ router.post("/user", upload.single("profileImg"), (req, res) => {
 // // ----------- DEALING WITH FAVOURITES
 // //
 
-router.put("/user/:id", (req, res) => {
+router.put("/addfav/:id", (req, res) => {
   userModel
     .findByIdAndUpdate(
       { _id: req.params.id },
-      { $push: { "auth.favourites": req.body.favourites } }
+      { $push: { "auth.favourites": req.body.fav } }
     )
     .then((user) => {
       res.json(user);
@@ -129,11 +129,11 @@ router.put("/user/:id", (req, res) => {
     });
 });
 
-router.delete("/user/:id", (req, res) => {
+router.put("/removefav/:id", (req, res) => {
   userModel
     .findByIdAndUpdate(
       { _id: req.params.id },
-      { $pull: { "auth.favourites": req.body.favourites } }
+      { $pull: { "auth.favourites": req.body.fav } }
     )
     .then((user) => {
       res.json(user);

@@ -2,9 +2,9 @@ import axios from "axios";
 import { returnErrors, clearErrors } from "./errorActions";
 import { tokenConfig } from "./userActions";
 
-export const POST_FAV_BEGIN = "POST_FAV_BEGIN";
-export const POST_FAV_SUCCESS = "POST_FAV_SUCCESS";
-export const POST_FAV_FAILURE = "POST_FAV_FAILURE";
+export const PUT_FAV_BEGIN = "PUT_FAV_BEGIN";
+export const PUT_FAV_SUCCESS = "PUT_FAV_SUCCESS";
+export const PUT_FAV_FAILURE = "PUT_FAV_FAILURE";
 
 export const REMOVE_FAV_BEGIN = "REMOVE_FAV_BEGIN";
 export const REMOVE_FAV_SUCCESS = "REMOVE_FAV_SUCCESS";
@@ -14,40 +14,42 @@ export const REMOVE_FAV_FAILURE = "REMOVE_FAV_FAILURE";
 // // -------- ADDING FAVOURITE
 // //
 
-export const postFavBegin = () => ({
-  type: POST_FAV_BEGIN
+export const putFavBegin = () => ({
+  type: PUT_FAV_BEGIN
 });
 
-export const postFavSuccess = (fav) => ({
-  type: POST_FAV_SUCCESS,
-  payload: { fav }
+export const putFavSuccess = (user) => ({
+  type: PUT_FAV_SUCCESS,
+  payload: { user }
 });
 
-export const postFavFailure = (error) => ({
-  type: POST_FAV_FAILURE,
+export const putFavFailure = (error) => ({
+  type: PUT_FAV_FAILURE,
   payload: { error }
 });
 
 export function addFav(fav) {
-  console.log("dispatching");
-  console.log(fav);
-
   return (dispatch, getState) => {
     const user_id = getState().auth.user._id;
-    dispatch(postFavBegin());
+    dispatch(putFavBegin());
 
     axios
-      .put("/users/user/" + user_id, fav, {
+      .put(
+        "/users/addfav/" + user_id,
+        fav /* , {
         headers: tokenConfig().headers
-      })
+      } */
+      )
       .then((res) => {
-        dispatch(postFavSuccess(res.data));
+        dispatch(putFavSuccess(fav));
       })
       .catch((err) => {
         if (err) {
+          console.log(err);
+
           dispatch(clearErrors());
           dispatch(returnErrors(err.response.data, err.response.status, null));
-          dispatch(postFavFailure());
+          dispatch(putFavFailure());
         }
       });
   };
@@ -77,11 +79,9 @@ export function removeFav(fav) {
     dispatch(removeFavBegin());
 
     axios
-      .delete("/users/user/" + user_id, fav, {
-        headers: tokenConfig().headers
-      })
+      .put("/users/removefav/" + user_id, fav)
       .then((res) => {
-        dispatch(removeFavSuccess(res.data));
+        dispatch(removeFavSuccess(fav));
       })
       .catch((err) => {
         if (err) {
