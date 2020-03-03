@@ -94,6 +94,8 @@ export const postUsersFailure = (error) => ({
 });
 
 export function postUsers(user) {
+  console.log(user);
+
   return (dispatch) => {
     dispatch(postUsersBegin());
     axios

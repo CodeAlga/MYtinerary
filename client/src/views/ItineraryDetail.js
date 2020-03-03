@@ -51,7 +51,7 @@ const ItineraryDeatil = (props) => {
   }, [dispatch]);
   useEffect(() => {
     dispatch(fetchActivities(id));
-  }, [dispatch]);
+  }, [dispatch, id]);
 
   if (error) {
     return <div>Error! {error.message}</div>;

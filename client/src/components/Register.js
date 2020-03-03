@@ -26,6 +26,7 @@ class Register extends Component {
       bday: "",
       city: "",
       profileImg: null,
+      imgPreview: null,
       email: "",
       password: "",
       touched: {
@@ -44,8 +45,6 @@ class Register extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.error !== this.props.error) {
-      console.log(this.props);
-
       if (this.props.error.id === "REGISTER FAILED") {
         this.handleError();
       }
@@ -74,11 +73,12 @@ class Register extends Component {
     });
   };
 
-  uploadSingleFile(e) {
+  uploadSingleFile = (e) => {
     this.setState({
-      profileImg: URL.createObjectURL(e.target.files[0])
+      imgPreview: URL.createObjectURL(e.target.files[0]),
+      profileImg: e.target.files[0]
     });
-  }
+  };
 
   handleChange = (e) => {
     this.setState({
@@ -90,17 +90,18 @@ class Register extends Component {
     e.preventDefault();
     this.props.dispatch(clearErrors());
 
-    const user = {
-      fname: this.state.fname,
-      lname: this.state.lname,
-      bday: this.state.bday,
-      userName: this.state.userName,
-      profileImg: this.state.profileImg,
-      email: this.state.email,
-      password: this.state.password
-    };
+    const newUser = new FormData();
 
-    this.props.dispatch(postUsers(user));
+    newUser.append("fname", this.state.fname);
+    newUser.append("lname", this.state.lname);
+    newUser.append("bday", this.state.bday);
+    newUser.append("userName", this.state.userName);
+    newUser.append("profileImg", this.state.profileImg);
+    newUser.append("email", this.state.email);
+    newUser.append("password", this.state.password);
+    //console.log(Array.from(formData));
+
+    this.props.dispatch(postUsers(newUser));
   };
 
   handleError = () => {
@@ -128,8 +129,6 @@ class Register extends Component {
   };
 
   render() {
-    //const { error } = this.props;
-
     const errors = this.validate(
       this.state.fname,
       this.state.lname,
@@ -148,8 +147,8 @@ class Register extends Component {
     };
 
     let imgPreview;
-    if (this.state.profileImg) {
-      imgPreview = <img src={this.state.profileImg} alt="" />;
+    if (this.state.imgPreview) {
+      imgPreview = <img src={this.state.imgPreview} alt="" />;
     }
 
     return (
@@ -298,7 +297,7 @@ class Register extends Component {
               </Button>
               <Grid container justify="flex-end">
                 <Grid item>
-                  <Link to={{ pathname: "/login" }}>
+                  <Link to={{ pathname: "/login" }} className>
                     Already have an account? Sign in
                   </Link>
                 </Grid>
