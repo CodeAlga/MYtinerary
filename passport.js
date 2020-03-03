@@ -42,7 +42,8 @@ passport.use(
     {
       clientID: process.env.GOOGLE_SECRET_ID,
       clientSecret: process.env.GOOGLE_SECRET_CLIENT,
-      callbackURL: "http://localhost:5000/authentication/social/google-callback"
+      callbackURL:
+        "https://intense-sands-70782.herokuapp.com/authentication/social/google-callback"
     },
     function(accessToken, refreshToken, profile, done, req, res) {
       //const token = accessToken;

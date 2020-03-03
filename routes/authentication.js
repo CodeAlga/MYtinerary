@@ -109,7 +109,8 @@ router.get(
   function(req, res) {
     let token = req.user;
     res.redirect(
-      "http://localhost:3000/login/social/google-callback/?token=" + token
+      "https://intense-sands-70782.herokuapp.com/login/social/google-callback/?token=" +
+        token
     );
   }
 );
