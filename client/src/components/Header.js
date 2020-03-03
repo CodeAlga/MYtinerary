@@ -1,21 +1,26 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
+import { logout } from "../store/actions/loginActions";
+import { useDispatch, useSelector } from "react-redux";
 
-import Drawer from "@material-ui/core/Drawer";
-import IconButton from "@material-ui/core/IconButton";
+import {
+  Drawer,
+  IconButton,
+  List,
+  Divider,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Button,
+  Dialog,
+  Slide,
+  DialogActions,
+  DialogTitle,
+  DialogContent,
+  Avatar
+} from "@material-ui/core";
+
 import MenuIcon from "@material-ui/icons/Menu";
-import List from "@material-ui/core/List";
-import Divider from "@material-ui/core/Divider";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import Slide from "@material-ui/core/Slide";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -33,7 +38,59 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function Header(props) {
+function Header() {
+  const dispatch = useDispatch();
+  const authenticated = useSelector((state) => state.auth.authenticated);
+  const user = useSelector((state) => state.auth.user);
+
+  const Letter = () => {
+    if (authenticated) {
+      if (user.auth.local || user.auth.social) {
+        if (
+          user.auth.local.profileImg !== null ||
+          user.auth.social.profileImg !== null
+        ) {
+          return (
+            <Fragment>
+              <Avatar
+                className="avatar"
+                src={user.auth.local.profileImg || user.auth.social.profileImg}
+              />
+              <span>
+                Welcome
+                {" " + user.auth.local.userName || user.auth.social.userName}
+              </span>
+            </Fragment>
+          );
+        } else {
+          return (
+            <Fragment>
+              <Avatar className="avatar">
+                {user.auth.local.userName.charAt(0).toUpperCase() ||
+                  user.auth.social.userName.charAt(0).toUpperCase()}
+              </Avatar>
+              <span>
+                Welcome{" "}
+                {" " + user.auth.local.userName || user.auth.social.userName}
+              </span>
+            </Fragment>
+          );
+        }
+      } else {
+        return (
+          <Fragment>
+            <Avatar className="avatar">
+              {user.auth.social.userName.charAt(0).toUpperCase()}
+            </Avatar>
+            <span>Welcome {user.auth.social.userName}</span>
+          </Fragment>
+        );
+      }
+    } else {
+      return <Avatar />;
+    }
+  };
+
   const [state, setState] = React.useState({
     right: false
   });
@@ -59,6 +116,10 @@ export default function Header(props) {
           onClick={toggleDrawer(side, false)}
           onKeyDown={toggleDrawer(side, false)}
         >
+          <div className="letter">
+            <Letter />
+          </div>
+          <Divider />
           <List>
             <ListItem button key="1">
               <FontAwesomeIcon className="drawericon" icon={faGlassCheers} />
@@ -75,21 +136,23 @@ export default function Header(props) {
           </List>
           <Divider />
           <List>
-            {["Log in", "Create Account"].map((text, index) => (
-              <ListItem button key={text}>
+            <ListItem button>
+              <Link to={{ pathname: "/login" }}>
                 <ListItemIcon>
-                  {index % 2 === 0 ? (
-                    <FontAwesomeIcon
-                      className="drawericon"
-                      icon={faSignInAlt}
-                    />
-                  ) : (
-                    <FontAwesomeIcon className="drawericon" icon={faUserPlus} />
-                  )}
+                  <FontAwesomeIcon className="drawericon" icon={faSignInAlt} />
                 </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-            ))}
+
+                <ListItemText primary="Log in" />
+              </Link>
+            </ListItem>
+            <ListItem button>
+              <Link to={{ pathname: "/register" }}>
+                <ListItemIcon>
+                  <FontAwesomeIcon className="drawericon" icon={faUserPlus} />
+                </ListItemIcon>{" "}
+                <ListItemText primary="Create Account" />
+              </Link>
+            </ListItem>
           </List>
         </div>
         <div
@@ -103,7 +166,12 @@ export default function Header(props) {
               <ListItemIcon>
                 <FontAwesomeIcon className="drawericon" icon={faSignOutAlt} />
               </ListItemIcon>
-              <ListItemText primary="Log Out" />
+              <ListItemText
+                primary="Log Out"
+                onClick={() => {
+                  dispatch(logout());
+                }}
+              ></ListItemText>
             </ListItem>
           </List>
         </div>
@@ -150,6 +218,17 @@ export default function Header(props) {
                   <p>Create Account</p>
                 </Link>
               </li>
+              <li onClick={handleClose}>
+                <FontAwesomeIcon className="drawericon" icon={faSignOutAlt} />
+                <Link
+                  to={{ pathname: "/" }}
+                  onClick={() => {
+                    dispatch(logout());
+                  }}
+                >
+                  <p>Log out</p>
+                </Link>
+              </li>
             </ul>
           </DialogContent>
           <DialogActions>
@@ -177,3 +256,5 @@ export default function Header(props) {
     </div>
   );
 }
+
+export default Header;

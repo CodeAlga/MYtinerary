@@ -5,25 +5,31 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { createStore, applyMiddleware } from "redux";
-//import { createLogger } from "redux-logger";
+import { logger } from "redux-logger";
 import { Provider } from "react-redux";
 import thunk from "redux-thunk";
 import rootReducer from "./store/reducers/rootReducer";
+import { SnackbarProvider } from "notistack";
 
 //const loggerMiddleware = createLogger();
 
 const store = createStore(
   rootReducer,
-  // applyMiddleware(
-  //   thunkMiddleware, // lets us dispatch() functions
-  //   loggerMiddleware // neat middleware that logs actions
-  // ),
-  composeWithDevTools(applyMiddleware(thunk))
+  composeWithDevTools(
+    applyMiddleware(
+      thunk, // lets us dispatch() functions
+      logger // middleware that logs actions
+    )
+  )
+  //   composeWithDevTools(applyMiddleware(thunk))
+  // )
 );
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <SnackbarProvider maxSnack={1}>
+      <App />
+    </SnackbarProvider>
   </Provider>,
   document.getElementById("root")
 );

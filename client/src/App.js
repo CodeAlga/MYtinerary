@@ -5,6 +5,10 @@ import Cities from "./views/Cities";
 import RegisterView from "./views/RegisterView";
 import LoginView from "./views/LoginView";
 import CityDetail from "./views/CityDetail";
+import ItineraryDetai from "./views/ItineraryDetail";
+//import queryString from "query-string";
+import { authUser } from "./store/actions/userActions";
+import { connect } from "react-redux";
 
 class App extends Component {
   constructor(props) {
@@ -12,6 +16,17 @@ class App extends Component {
     this.state = {
       listCities: []
     };
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.auth !== this.props.auth) {
+      this.props.dispatch(authUser());
+    }
+    // var query = queryString.parse(this.props.location.search);
+    // if (query.token) {
+    //   window.localStorage.setItem("jwt", query.token);
+    //   this.props.history.push("/login/google/authentication");
+    // }
   }
 
   render() {
@@ -31,6 +46,7 @@ class App extends Component {
               <Route path="/register" component={RegisterView} />
               <Route path="/login" component={LoginView} />
               <Route path="/itineraries/city/:id/" component={CityDetail} />
+              <Route path="/itinerary/:id/" component={ItineraryDetai} />
             </Switch>
           </div>
         </div>
@@ -39,4 +55,6 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = (state) => ({});
+
+export default connect(mapStateToProps)(App);

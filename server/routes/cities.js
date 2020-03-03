@@ -31,7 +31,7 @@ router.get("/all", (req, res) => {
     .then((cities) => {
       res.send(cities);
     })
-    .catch((err) => console.log(err));
+    .catch((err) => res.send(err));
 });
 //
 // GET CITY BY ID
