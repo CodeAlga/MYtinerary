@@ -50,7 +50,7 @@ app.use("/comments", require("./routes/comments"));
 // //
 if (process.env.NODE_ENV === "production") {
   // // Set static folder
-  app.user(express.static("client/build"));
+  app.use(express.static("client/build"));
 
   app.get("*", (req, res) => {
     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
@@ -61,4 +61,4 @@ app.listen(port, () => {
   console.log("Fanchy smanchy server is runing on port " + port);
 });
 
-module.exports = app;
+//module.exports = app;
