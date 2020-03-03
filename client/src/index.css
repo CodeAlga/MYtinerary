@@ -115,6 +115,10 @@ a {
   padding-top: 1rem;
   transform: translateX(20px);
 }
+.sideDrawer > div a {
+  color: #333;
+  display: flex;
+}
 .sideDrawer .drawericon,
 .userDialog .drawericon {
   font-size: 2rem;
@@ -491,4 +495,7 @@ a {
 }
 .registerBox button {
   margin-top: 1rem;
+}
+.registerBox a {
+  color: #333;
 }

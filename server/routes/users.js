@@ -11,7 +11,7 @@ const auth = require("../middleware/auth");
 //  // --- HANDLING USER PROFILE IMGS
 //	//
 const storage = multer.diskStorage({
-  destination: function(req, file, callback) {
+  destination: (req, file, callback) => {
     callback(null, "./uploads/");
   },
   filename: function(req, file, callback) {
@@ -20,8 +20,14 @@ const storage = multer.diskStorage({
 });
 const fileFilter = (req, file, callback) => {
   // reject file
-  if (file.mimetype === "image/jpeg" || "image/png" || "image/jpeg") {
-    console.log("got the file ok");
+  //console.log(file);
+
+  if (
+    file.mimetype === "image/jpg" ||
+    file.mimetype === "image/png" ||
+    file.mimetype === "image/jpeg"
+  ) {
+    //console.log("got the file ok");
 
     callback(null, true);
   } else {
@@ -43,15 +49,14 @@ const upload = multer({
 
 router.post("/user", upload.single("profileImg"), (req, res) => {
   const {
-    origin,
     fname,
     lname,
+    userName,
     bday,
     city,
-    profileImg,
-    userName,
     email,
-    password
+    password,
+    profileImg
   } = req.body;
 
   //
@@ -68,23 +73,35 @@ router.post("/user", upload.single("profileImg"), (req, res) => {
     if (user) {
       return res.status(400).json({ msg: "That email is already registered" });
     }
+
+    const profileImg = () => {
+      if (!req.file) {
+        return "";
+      } else {
+        return req.file.path;
+      }
+    };
+
     const newUser = new userModel({
       "auth.origin": "local",
-      "auth.local.fname": req.body.fname,
-      "auth.local.lname": req.body.lname,
-      "auth.local.userName": req.body.userName,
-      "auth.local.profileImg": req.body.profileImg,
-      "auth.local.bday": req.body.bday,
-      "auth.local.city": req.body.city,
-      "auth.local.email": req.body.email,
-      "auth.local.password": req.body.password
+      "auth.local.fname": fname,
+      "auth.local.lname": lname,
+      "auth.local.userName": userName,
+      "auth.local.profileImg": profileImg,
+      "auth.local.bday": bday,
+      "auth.local.city": city,
+      "auth.local.email": email,
+      "auth.local.password": password
     });
 
     bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
       //if (err) throw err;
       newUser.auth.local.password = hash;
       newUser.save().then((user) => {
-        const payload = { id: user.id };
+        const payload = {
+          id: user.id
+        };
+
         const options = { expiresIn: 2592000 };
         jwt.sign(
           payload,
@@ -99,8 +116,11 @@ router.post("/user", upload.single("profileImg"), (req, res) => {
               token,
               user: {
                 id: user.id,
-                userName: user.userName,
-                email: user.email
+                fname: user.auth.local.fname,
+                lname: user.auth.local.lname,
+                userName: user.auth.local.userName,
+                email: user.auth.local.email,
+                profileImg: user.auth.local.profileImg
               }
             });
           }

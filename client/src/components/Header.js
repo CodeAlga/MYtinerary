@@ -2,6 +2,7 @@ import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
 import { logout } from "../store/actions/loginActions";
 import { useDispatch, useSelector } from "react-redux";
+
 import {
   Drawer,
   IconButton,
@@ -44,15 +45,37 @@ function Header() {
 
   const Letter = () => {
     if (authenticated) {
-      if (user.auth.local) {
-        return (
-          <Fragment>
-            <Avatar className="avatar">
-              {user.auth.local.userName.charAt(0).toUpperCase()}
-            </Avatar>
-            <span>Welcome {user.auth.local.userName}</span>
-          </Fragment>
-        );
+      if (user.auth.local || user.auth.social) {
+        if (
+          user.auth.local.profileImg !== null ||
+          user.auth.social.profileImg !== null
+        ) {
+          return (
+            <Fragment>
+              <Avatar
+                className="avatar"
+                src={user.auth.local.profileImg || user.auth.social.profileImg}
+              />
+              <span>
+                Welcome
+                {" " + user.auth.local.userName || user.auth.social.userName}
+              </span>
+            </Fragment>
+          );
+        } else {
+          return (
+            <Fragment>
+              <Avatar className="avatar">
+                {user.auth.local.userName.charAt(0).toUpperCase() ||
+                  user.auth.social.userName.charAt(0).toUpperCase()}
+              </Avatar>
+              <span>
+                Welcome{" "}
+                {" " + user.auth.local.userName || user.auth.social.userName}
+              </span>
+            </Fragment>
+          );
+        }
       } else {
         return (
           <Fragment>

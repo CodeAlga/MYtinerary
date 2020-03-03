@@ -30,6 +30,9 @@ mongoose
   .catch((err) => console.log(err));
 mongoose.Promise = global.Promise;
 
+// // GETTING PROFILE IMGS
+app.use("/uploads", express.static("uploads"));
+
 // //
 // // GETTING ROUTES
 // //
