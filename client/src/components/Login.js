@@ -181,20 +181,13 @@ class Login extends Component {
               </Grid>
             </form>
             <Grid item xs={12}>
-              <a href="http://localhost:5000/authentication/social">
+              <a href="https://intense-sands-70782.herokuapp.com/authentication/social">
                 <Button
                   fullWidth
                   variant="contained"
                   color="primary"
                   size="large"
                 >
-                  {/* <img
-                  width="20px"
-                  margin="0 20px"
-                  alt="Google sign-in"
-                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png"
-                /> */}
-
                   <span className="svgIcon t-popup-svg">
                     <svg
                       className="svgIcon-use"
