@@ -1,5 +1,16 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+# MYtineray by CodeAlga
+
+A Progressive Web Application built in the MERN Stack and looking sharp with Material UI.
+The MVP of the project was to create an app that displayed tours of cities for visitors to do. The should have a bit of infor regarding the time and money needed to invest in said tours.
+But this tours are not created by a company, they are created by the people that live and walk and know the city.
+
+Casual users (without an account) shoud be able to navigate the cities and the tours and see the info regarding each itinerary.
+For registered users it was required registration (duh!) and access to extra features like beeing able to have favourites and leave comments the existing tours. In order for them to be able to do that a custom middleware existis with a JWT security sistem that ensures users that are logged in can operate fully throught the app.
+
+Other addons like bcrypt, multer, slick-carousel and more third-party npm packages have been used to create this app.
+
 ## Available Scripts
 
 In the project directory, you can run:
